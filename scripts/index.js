@@ -1,4 +1,7 @@
-// placeholder comment
+// =================================
+// CONSTANT VARIABLE DECLARATIONS
+// =================================
+const categoryDropdown = document.querySelector('[data-category]');
 const sampleData = [
     {
         "score": 1,
@@ -602,17 +605,22 @@ const categories = [
     ];
 
 
-const categoryDropdown = document.querySelector('[data-category]');
-    
-// function that draws drop-down list option to DOM
+// =================================
+// FUNCTION DEDEFINITIONS
+// =================================
 function drawOption(catName, catID) {
+/* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
     const newOption = document.createElement('option');
     newOption.setAttribute('value', catID);
     newOption.textContent = catName;
     categoryDropdown.appendChild(newOption);
 }
 
+
+// =================================
+// MAIN
+// =================================
+
+// forEach loop to build dropdown list of categories by adding child option
+// elements to the select element in the html file
 categories.forEach(x => drawOption(x.name, x.id));
-
-
-// add a forEach loop to build dropdown list of categories 
