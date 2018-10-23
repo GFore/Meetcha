@@ -1,0 +1,12 @@
+/* border-box hack */
+html {box-sizing: border-box;}
+*, *:before, *:after {box-sizing: inherit;}
+
+/* chef aquino's special sauce */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
