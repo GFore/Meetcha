@@ -10,3 +10,7 @@ html, body {
     width: 100%;
 }
 
+#map {
+	height: 50vh;
+}
+
