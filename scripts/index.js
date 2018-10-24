@@ -5,6 +5,7 @@ const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
+const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/'
 
 
 
@@ -81,54 +82,59 @@ function drawOption(catName, catID) {
         formCategoryDropdown.appendChild(newOption);
     }
 
-function checker(event) {
-    console.log(event);
+function extract(returnedData) {
+    console.log(returnedData);
+    // extract the results array from the returned data 
     debugger;
+    return returnedData.results;
 }
 
-function fetchMeetupData() {
-//build URL from form data and API Key constant
-//use fetch and then expressions to retrieve API info results
-    const baseurl = `https://api.meetup.com/find/groups?key=${MEETUP_APIKEY}`;
-    const urlZip = `&zip=${formZipcode.value}`;
-    const urlRadius = `&radius=${formRadius.value}`;
-    const urlCategory = `&category=${formCategoryDropdown.value}&order=members`;
-    const url = `${baseurl}${urlZip}${urlRadius}${urlCategory}`;
-    console.log(`fetching ${url}`);
-    //debugger;
-    fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}}).then(r => r.json()).then(checker);
+function displayResults(results) {      // TBD - function to add DIVs containing events
+    return results;
+}
+
+function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
+    pins = results;
+    return pins;
+}
+
+
+function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+    return pins;
 }
 
 function handleSubmit(event) {
 	event.preventDefault();
 	console.log('submit was clicked');
-
 	console.log(event.target);
+//build URL from form data and API Key constant
+//use fetch and then expressions to retrieve API info results
+    //const baseurl = `https://api.meetup.com/find/groups?key=${MEETUP_APIKEY}`;
+    const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
+    const urlZip = `&zip=${formZipcode.value}`;
+    const urlRadius = `&radius=${formRadius.value}`;
+    const urlCategory = `&category=${formCategoryDropdown.value}&order=time`;
+    // NEED TO HANDLE CASES WHERE FORM FIELDS WERE LEFT BLANK
+    const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
+    console.log(`fetching ${url}`);
     //debugger;
-    fetchMeetupData();
-	// We're gonna Ajax that thing.
+    fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+        .then(r => r.json())
+        .then(extract)
+        .then(displayResults)
+        .then(getPinInfo)
+        .then(mapPins);
+}
+
+
+    //debugger;
+    //fetchMeetupData();
+	/* We're gonna Ajax that thing.
 	// Call fetch()
 	// pass it the URL
 	// and an object with a method and a body
-	// const url = event.target.action;
-	/*const url = API_URL;
-	const method = event.target.method;
-	const elements = event.target.elements;
-	const data = {
-		strength: elements.strength.value,
-		flavor: elements.flavor.value,
-		size: elements.size.value,
-		coffee: elements.coffee.value,
-		emailAddress: elements.emailAddress.value
-	};
-	fetch(url, {
-		method: method,
-		headers: {
-			'Content-Type': 'application/json; charset=utf-8'
-			// "Content-Type": "application/x-www-form-urlencoded",
-		},
-		body: JSON.stringify(data)
-	})
+
+	
 		.then((r) => r.json())
 		.then((orderInfo) => {
 			// check the orderInfo for errors
@@ -145,7 +151,7 @@ function handleSubmit(event) {
 		}); // gotta wrap it in an anonymous function
 */
 	// debugger;
-}
+//}
     
     
 // =================================
