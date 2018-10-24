@@ -13,21 +13,18 @@ const formCategoryDropdown = document.querySelector('[data-category]');
 // =================================
 
 function initMap() {
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 8,
-      center: {lat: 33.749, lng: 84.388}
+    // const address = formZipcode.value;
+    const address = `99501`;
+    let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: {lat: 33.749, lng: 84.388}
     });
-    var geocoder = new google.maps.Geocoder();
-    
-    geocodeZipCenter(geocoder, map);
-  }
-
-  function geocodeZipCenter(geocoder, resultsMap) {
-    var address = `99501`;
+    let geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results) {
-        resultsMap.setCenter(results[0].geometry.location);
+        map.setCenter(results[0].geometry.location);
     });
-  }
+
+}
 
 
 function drawOption(catName, catID) {
