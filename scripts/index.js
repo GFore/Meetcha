@@ -5,8 +5,8 @@ const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
-const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/'
-
+const sectionEventList = document.querySelector('[data-eventList]');
+const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 
 // =================================
@@ -39,12 +39,32 @@ function drawOption(catName, catID) {
 function extract(returnedData) {
     console.log(returnedData);
     // extract the results array from the returned data 
-    debugger;
+    //debugger;
     return returnedData.results;
 }
 
 function displayResults(results) {      // TBD - function to add DIVs containing events
+    results.forEach(addEventDiv);
     return results;
+}
+
+function addEventDiv(event) {
+    //event is an object with key-value pairs containing details for an event - see the results
+    // const in sampleData.js for an example of the event data
+    // This function will add a div to the html body element that displays info for the event.
+    //debugger;
+    let newEvent = document.createElement("details");
+    let newEventSummary = document.createElement("summary");
+    let newEventDetails = document.createElement("div");
+    newEventSummary.innerHTML = `<h3>Event: ${event.name}</h3>`;
+    newEventDetails.innerHTML = `
+        <p>Description:${event.description}</p>
+        <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
+    console.log('creating event div');
+    newEvent.appendChild(newEventSummary);
+    newEvent.appendChild(newEventDetails);
+    sectionEventList.appendChild(newEvent);
+    //debugger;
 }
 
 function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
