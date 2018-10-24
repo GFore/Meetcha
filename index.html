@@ -14,7 +14,7 @@
     <h1 >Meetcha!</h1>
     </div>
     
-    <form action="">
+    <form action="https://api.meetup.com/find/groups" method="GET" data-form>
         <fieldset>
             <legend>Information</legend>
        <td><label for="zipcode">Zipcode: <input type="text" name="zipcode" data-zipcode></label>
@@ -22,7 +22,7 @@
         <label for="category">
        <select name="category" data-category>
         </select></label>
-        <input type="submit" value="Submit"></nobr>
+        <input type="submit" value="Submit"></nobr>  <!-- onclick="fetchMeetupData()"-->
         <input type="reset" value="Reset"></nobr>
         </td>
         </fieldset>
