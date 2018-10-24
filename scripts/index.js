@@ -82,9 +82,25 @@ function drawOption(catName, catID) {
         formCategoryDropdown.appendChild(newOption);
     }
 
-function checker(event) {
-    console.log(event);
+function extract(returnedData) {
+    console.log(returnedData);
+    // extract the results array from the returned data 
     debugger;
+    return returnedData.results;
+}
+
+function displayResults(results) {      // TBD - function to add DIVs containing events
+    return results;
+}
+
+function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
+    pins = results;
+    return pins;
+}
+
+
+function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+    return pins;
 }
 
 function handleSubmit(event) {
@@ -102,7 +118,12 @@ function handleSubmit(event) {
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
     //debugger;
-    fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}}).then(r => r.json()).then(checker);
+    fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
+        .then(r => r.json())
+        .then(extract)
+        .then(displayResults)
+        .then(getPinInfo)
+        .then(mapPins);
 }
 
 
