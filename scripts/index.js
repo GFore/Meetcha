@@ -54,6 +54,47 @@ function getPinInfo(results) {      // TBD - function to extract lat/lon and tit
 
 
 function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+    obj = [
+        {
+            'id': '0',
+            'eventName': 'Alpha',
+            'lat': 33.749,
+            'long': 84.388,
+        },
+        {
+            'id': '1',
+            'eventName': 'Bravo',
+            'lat': 33.837,
+            'long': 84.406,
+        },
+        {
+            'id': '2',
+            'eventName': 'Cierra',
+            'lat': 34.023,
+            'long': 84.615,
+        },
+
+    ]
+    // testing loop
+    for (var i = 0; i < pins.length; i++) {
+        const lat = pins[i].lat;
+        const lon = pins[i].lon;
+        let coord = new google.maps.LatLng(lat, lon);
+        let marker = new google.maps.Marker({
+            position: coord,
+            map: map
+        })
+    }
+    // // attempt at adding pins
+    // for (var i = 0; i < pins.length; i++) {
+    //     const lat = pins[i].lat;
+    //     const lon = pins[i].lon;
+    //     let coord = new google.maps.LatLng(lat, lon);
+    //     let marker = new google.maps.Marker({
+    //         position: coord,
+    //         map: map
+    //     })
+    // }
     return pins;
 }
 
