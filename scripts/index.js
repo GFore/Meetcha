@@ -15,46 +15,17 @@ const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/'
 
 function initMap() {
     // const address = formZipcode.value;
-    const address = `99501`;
+    const address = `30301`;
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        center: {lat: 33.749, lng: 84.388}
+        // center: {lat: 33.749, lng: 84.388}
     });
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results) {
         map.setCenter(results[0].geometry.location);
     });
-
-}
-
-
-function drawOption(catName, catID) {
-    /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
-        const newOption = document.createElement('option');
-        newOption.setAttribute('value', catID);
-        newOption.textContent = catName;
-        formCategoryDropdown.appendChild(newOption);
-    }
-
-function extract(returnedData) {
-    console.log(returnedData);
-    // extract the results array from the returned data 
-    debugger;
-    return returnedData.results;
-}
-
-function displayResults(results) {      // TBD - function to add DIVs containing events
-    return results;
-}
-
-function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
-    pins = results;
-    return pins;
-}
-
-
-function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
-    obj = [
+    
+    const pins = [
         {
             'id': '0',
             'eventName': 'Alpha',
@@ -85,16 +56,46 @@ function mapPins(pins) {      // TBD - placeholder for function to display pins 
             map: map
         })
     }
-    // // attempt at adding pins
-    // for (var i = 0; i < pins.length; i++) {
-    //     const lat = pins[i].lat;
-    //     const lon = pins[i].lon;
-    //     let coord = new google.maps.LatLng(lat, lon);
-    //     let marker = new google.maps.Marker({
-    //         position: coord,
-    //         map: map
-    //     })
-    // }
+
+}
+
+
+function drawOption(catName, catID) {
+    /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
+        const newOption = document.createElement('option');
+        newOption.setAttribute('value', catID);
+        newOption.textContent = catName;
+        formCategoryDropdown.appendChild(newOption);
+    }
+
+function extract(returnedData) {
+    console.log(returnedData);
+    // extract the results array from the returned data 
+    debugger;
+    return returnedData.results;
+}
+
+function displayResults(results) {      // TBD - function to add DIVs containing events
+    return results;
+}
+
+function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
+    pins = results;
+    return pins;
+}
+
+
+function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+    // attempt at adding pins
+    for (var i = 0; i < pins.length; i++) {
+        const lat = pins[i].lat;
+        const lon = pins[i].lon;
+        let coord = new google.maps.LatLng(lat, lon);
+        let marker = new google.maps.Marker({
+            position: coord,
+            map: map
+        })
+    }
     return pins;
 }
 
