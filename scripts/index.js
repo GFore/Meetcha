@@ -5,8 +5,8 @@ const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
-const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/'
-
+const sectionEventList = document.querySelector('[data-eventList]');
+const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 
 // =================================
@@ -71,21 +71,67 @@ function drawOption(catName, catID) {
 function extract(returnedData) {
     console.log(returnedData);
     // extract the results array from the returned data 
-    debugger;
+    //debugger;
     return returnedData.results;
 }
 
 function displayResults(results) {      // TBD - function to add DIVs containing events
+    results.forEach(addEventDiv);
     return results;
 }
 
-function getPinInfo(results) {      // TBD - function to extract lat/lon and title info for map pins
-    pins = results;
+function addEventDiv(event) {
+    //event is an object with key-value pairs containing details for an event - see the results
+    // const in sampleData.js for an example of the event data
+    // This function will add a div to the html body element that displays info for the event.
+    //debugger;
+    let newEvent = document.createElement("details");
+    let newEventSummary = document.createElement("summary");
+    let newEventDetails = document.createElement("div");
+    newEventSummary.innerHTML = `<h3>Event: ${event.name}</h3>`;
+    newEventDetails.innerHTML = `
+        <p>Description:${event.description}</p>
+        <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
+    //console.log('creating event div');
+    newEvent.appendChild(newEventSummary);
+    newEvent.appendChild(newEventDetails);
+    sectionEventList.appendChild(newEvent);
+    //debugger;
+}
+
+function getPinInfo(results) {
+    // function to build the pins array to contain event info (id, name, and lat/lon)
+    // for map pins. The pins array will look like:
+    // [{   'id': '<string>',
+    //      'eventName': '<string>',
+    //      'lat': <int>,
+    //      'lon': <int>
+    // }, ...]
+    let pins = [];
+    let eventInfo;
+    results.forEach(x => {
+        //debugger;
+        console.log(`Pins size: ${pins.length}`);
+        eventInfo = {};
+        eventInfo['id'] = x.id;
+        eventInfo['eventName'] = x.name;
+
+        //account for case where event does not include separate venue info
+        if (Object.keys(x).includes('venue')) {
+            eventInfo['lat'] = x.venue.lat;
+            eventInfo['lon'] = x.venue.lon;
+        } else {
+            eventInfo['lat'] = x.group.group_lat;
+            eventInfo['lon'] = x.group.group_lon;
+        }
+        pins.push(eventInfo)});
+    
     return pins;
 }
 
 
 function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+<<<<<<< HEAD
     // attempt at adding pins
     for (var i = 0; i < pins.length; i++) {
         const lat = pins[i].lat;
@@ -96,6 +142,9 @@ function mapPins(pins) {      // TBD - placeholder for function to display pins 
             map: map
         })
     }
+=======
+    console.table(pins);
+>>>>>>> master
     return pins;
 }
 
@@ -103,9 +152,6 @@ function handleSubmit(event) {
 	event.preventDefault();
 	console.log('submit was clicked');
 	console.log(event.target);
-//build URL from form data and API Key constant
-//use fetch and then expressions to retrieve API info results
-    //const baseurl = `https://api.meetup.com/find/groups?key=${MEETUP_APIKEY}`;
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
     const urlZip = `&zip=${formZipcode.value}`;
     const urlRadius = `&radius=${formRadius.value}`;
@@ -121,33 +167,6 @@ function handleSubmit(event) {
         .then(getPinInfo)
         .then(mapPins);
 }
-
-
-    //debugger;
-    //fetchMeetupData();
-	/* We're gonna Ajax that thing.
-	// Call fetch()
-	// pass it the URL
-	// and an object with a method and a body
-
-	
-		.then((r) => r.json())
-		.then((orderInfo) => {
-			// check the orderInfo for errors
-			// && is a "falsey hunter"
-			// It moves from left to right, and will stop moving
-			// when it finds the first falsey expression.
-			if (orderInfo.name && orderInfo.name === 'ValidationError') {
-				notifyUser(`I'm sorry. 
-				Please fill out the coffee field and the email address field. 
-				Thanks. K. Byeeee.`);
-			} else {
-				notifyUser(`You coffee is totally (not) on its way!`);
-			}
-		}); // gotta wrap it in an anonymous function
-*/
-	// debugger;
-//}
     
     
 // =================================
