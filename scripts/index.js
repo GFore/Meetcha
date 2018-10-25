@@ -32,14 +32,6 @@ function initMap() {
                         });
                 }
     );
-    // const pins = [
-    //     {
-    //         'id': '0',
-    //         'eventName': 'Alpha',
-    //         'lat': 33.749,
-    //         'long': 84.388,
-    //     },
-    // ]
 }
 
 // function drawMap() {
