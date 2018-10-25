@@ -12,53 +12,59 @@ const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 // =================================
 // FUNCTION DEDEFINITIONS
 // =================================
+function getLocation(cb) {
+    let lats;
+    let longs;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(location) {
+            lats = location.coords.latitude;
+            longs = location.coords.longitude;
+          console.log("Your Lat/Lon: " + lats + "/" + longs);
+          cb({'myLat': lats, 'myLon': longs});
+        })}    
+}
 
 function initMap() {
-    // const address = formZipcode.value;
-    const address = `30301`;
+    getLocation(function(myLatLon) {
+                let map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 8,
+                        center: {lat: parseFloat(myLatLon.myLat), lng: parseFloat(myLatLon.myLon)}
+                        });
+                }
+    );
+    // const pins = [
+    //     {
+    //         'id': '0',
+    //         'eventName': 'Alpha',
+    //         'lat': 33.749,
+    //         'long': 84.388,
+    //     },
+    //     {
+    //         'id': '1',
+    //         'eventName': 'Bravo',
+    //         'lat': 33.837,
+    //         'long': 84.406,
+    //     },
+    //     {
+    //         'id': '2',
+    //         'eventName': 'Cierra',
+    //         'lat': 34.023,
+    //         'long': 84.615,
+    //     },
+}
+
+function drawMap() {
+    const address = formZipcode.value;
+    console.log('drawing map');
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
-        // center: {lat: 33.749, lng: 84.388}
+        //mapTypeId: google.maps.mapTypeId.ROADMAP
     });
     let geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address': address}, function(results) {
         map.setCenter(results[0].geometry.location);
     });
-    
-    const pins = [
-        {
-            'id': '0',
-            'eventName': 'Alpha',
-            'lat': 33.749,
-            'long': 84.388,
-        },
-        {
-            'id': '1',
-            'eventName': 'Bravo',
-            'lat': 33.837,
-            'long': 84.406,
-        },
-        {
-            'id': '2',
-            'eventName': 'Cierra',
-            'lat': 34.023,
-            'long': 84.615,
-        },
-
-    ]
-    // testing loop
-    for (var i = 0; i < pins.length; i++) {
-        const lat = pins[i].lat;
-        const lon = pins[i].lon;
-        let coord = new google.maps.LatLng(lat, lon);
-        let marker = new google.maps.Marker({
-            position: coord,
-            map: map
-        })
-    }
-
 }
-
 
 function drawOption(catName, catID) {
     /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
@@ -131,7 +137,6 @@ function getPinInfo(results) {
 
 
 function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
-<<<<<<< HEAD
     // attempt at adding pins
     for (var i = 0; i < pins.length; i++) {
         const lat = pins[i].lat;
@@ -140,11 +145,9 @@ function mapPins(pins) {      // TBD - placeholder for function to display pins 
         let marker = new google.maps.Marker({
             position: coord,
             map: map
-        })
+        });
     }
-=======
     console.table(pins);
->>>>>>> master
     return pins;
 }
 
@@ -160,6 +163,7 @@ function handleSubmit(event) {
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
     //debugger;
+    drawMap();
     fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
         .then(r => r.json())
         .then(extract)
