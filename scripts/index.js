@@ -34,19 +34,6 @@ function initMap() {
     );
 }
 
-// function drawMap() {
-//     const address = formZipcode.value;
-//     console.log('drawing map');
-//     let map = new google.maps.Map(document.getElementById('map'), {
-//         zoom: 8,
-//         //mapTypeId: google.maps.mapTypeId.ROADMAP
-//     });
-//     let geocoder = new google.maps.Geocoder();
-//     geocoder.geocode({'address': address}, function(results) {
-//         map.setCenter(results[0].geometry.location);
-//     });
-// }
-
 function drawOption(catName, catID) {
     /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
         const newOption = document.createElement('option');
