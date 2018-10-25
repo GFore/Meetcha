@@ -27,7 +27,7 @@ function getLocation(cb) {
 function initMap() {
     getLocation(function(myLatLon) {
                 let map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 8,
+                        zoom: 13,
                         center: {lat: parseFloat(myLatLon.myLat), lng: parseFloat(myLatLon.myLon)}
                         });
                 }
@@ -73,22 +73,39 @@ function addEventDiv(event) {
     //debugger;
 }
 
+function getEventTime(epochTime) {
+    let fullDateArray = new Date(epochTime).toString().split(' ').slice(0,5);
+    // e.g., epochTime 1540491895495 would now be converted to ["Thu", "Oct", "25", "2018", "15:08:33"]
+    // need to convert last item from 24hr time to 12hr time with AM/PM
+    let milTime = fullDateArray.pop().split(':');  //pulls off last value and converts "15:08:33" to ["15", "13", "44"]
+    let milHour = parseInt(milTime[0]);
+    milTime[2] = (milHour > 11) ? "PM" : "AM";
+    if (milHour === 0) {milTime[0] = "12"};
+    if (milHour > 12) {milTime[0] = `${milHour % 12}`};
+    fullDateArray.push(`${milTime[0]}:${milTime[1]} ${milTime[2]}`);
+    // now, fullDateArray contains ["Thu", "Oct", "25", "2018", "3:08 PM"]
+    return fullDateArray.join(' ');
+}
+
 function getPinInfo(results) {
     // function to build the pins array to contain event info (id, name, and lat/lon)
     // for map pins. The pins array will look like:
     // [{   'id': '<string>',
     //      'eventName': '<string>',
+    //      'eventTime': '<string>',
     //      'lat': <int>,
-    //      'lon': <int>
+    //      'lon': <int>,
     // }, ...]
     let pins = [];
     let eventInfo;
     results.forEach(x => {
         //debugger;
-        console.log(`Pins size: ${pins.length}`);
+        //console.log(`Pins size: ${pins.length}`);
+        //console.log(`${x.time} is ${getEventTime(x.time)}`);
         eventInfo = {};
         eventInfo['id'] = x.id;
         eventInfo['eventName'] = x.name;
+        eventInfo['eventTime'] = getEventTime(x.time);
 
         //account for case where event does not include separate venue info
         if (Object.keys(x).includes('venue')) {
@@ -99,7 +116,7 @@ function getPinInfo(results) {
             eventInfo['lon'] = x.group.group_lon;
         }
         pins.push(eventInfo)});
-    
+    //debugger;
     return pins;
 }
 
