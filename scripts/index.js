@@ -32,38 +32,6 @@ function initMap() {
                         });
                 }
     );
-    // const pins = [
-    //     {
-    //         'id': '0',
-    //         'eventName': 'Alpha',
-    //         'lat': 33.749,
-    //         'long': 84.388,
-    //     },
-    //     {
-    //         'id': '1',
-    //         'eventName': 'Bravo',
-    //         'lat': 33.837,
-    //         'long': 84.406,
-    //     },
-    //     {
-    //         'id': '2',
-    //         'eventName': 'Cierra',
-    //         'lat': 34.023,
-    //         'long': 84.615,
-    //     },
-}
-
-function drawMap() {
-    const address = formZipcode.value;
-    console.log('drawing map');
-    let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        //mapTypeId: google.maps.mapTypeId.ROADMAP
-    });
-    let geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address}, function(results) {
-        map.setCenter(results[0].geometry.location);
-    });
 }
 
 function drawOption(catName, catID) {
@@ -137,16 +105,35 @@ function getPinInfo(results) {
 
 
 function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
-    // attempt at adding pins
-    for (var i = 0; i < pins.length; i++) {
-        const lat = pins[i].lat;
-        const lon = pins[i].lon;
-        let coord = new google.maps.LatLng(lat, lon);
-        let marker = new google.maps.Marker({
-            position: coord,
+    
+    const address = formZipcode.value;
+    console.log('drawing map');
+    let map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        //mapTypeId: google.maps.mapTypeId.ROADMAP
+    });
+    let geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, function(results) {
+        map.setCenter(results[0].geometry.location);
+    });
+
+    // draw pins and make them clickable
+    let marker, i
+    let infowindow = new google.maps.InfoWindow({});
+    for(i = 0; i < pins.length; i++){
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(pins[i].lat, pins[i].lon),
             map: map
         });
+
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function (){
+                infowindow.setContent(pins[i].eventName);
+                infowindow.open(map,marker);
+            }
+        })(marker, i));
     }
+
     console.table(pins);
     return pins;
 }
@@ -163,7 +150,7 @@ function handleSubmit(event) {
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
     //debugger;
-    drawMap();
+    // drawMap();
     fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
         .then(r => r.json())
         .then(extract)
