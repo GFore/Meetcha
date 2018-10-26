@@ -11,7 +11,11 @@ html, body {
 }
 
 input {margin: 3px 3px 3px 1px}
-section {padding: 10px;}
+section {
+    padding: 10px;
+    overflow: scroll;
+    height: 50vh;
+}
 
 
 header {
@@ -21,6 +25,7 @@ header {
 /*  */
 #map {
     height: 50vh;
+    width: 66%;
 }
 
 .formItems {
@@ -28,9 +33,25 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-
+    display: i
 }
 
 .formItems>div {
     margin: 5px;
+}
+
+.map-field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 2px brown solid;
+    justify-content: center
+}
+
+.description {
+    width: 30%;
+    height: 50vh;
+    overflow: scroll;
+    padding: 10px;
+
 }
