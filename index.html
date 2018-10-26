@@ -9,69 +9,28 @@
     <link rel="stylesheet" href="stylesheets/index.css">
 </head>
 <body>
-    <div>
-    <div style="text-align:center">
-    <h1 >Meetcha!</h1>
-    </div>
-    
-    <form action="https://api.meetup.com/find/groups" method="GET" data-form>
-        <fieldset>
-            <legend>Information</legend>
-        <td><label for="zipcode">Zipcode: <input type="text" name="zipcode" data-zipcode></label>
-        <label for="radius">Radius: <input type="number" name="radius" min=1 max=100 data-radius></label><br>
-        <label for="category">
-        <select name="category" data-category>
-        </select></label>
-        <input type="submit" value="Submit"></nobr>  <!-- onclick="fetchMeetupData()"-->
-        <input type="reset" value="Reset"></nobr>
-        </td>
-        </fieldset>
+    <header>
+        <h1 >Meetcha!</h1>
+    </header>
+    <main>
+        <form action="https://api.meetup.com/find/groups" method="GET" data-form>
+            <fieldset>
+                <legend>Information</legend>
+                <label for="zipcode">Zipcode: <input type="text" name="zipcode" data-zipcode></label>
+                <label for="radius">Radius: <input type="number" name="radius" min=1 max=100 data-radius></label><br>
+                <label for="category"><select name="category" data-category></select></label>
+                <input type="submit" value="Submit">
+                <input type="reset" value="Reset">
+            </fieldset>
         </form>
         <div class=map-fieled>
-            <form>
-                <fieldset>
-                    <legend>Map</legend>
-                    <div id="map">
-                        
-                    </div>
-                </fieldset>
-                </form>
-        <!-- <div class=description>
-                <fieldset>
-                    <legend>Description</legend>
-                    <Div class="description">
-                        <p class= meetup-title>
-                            Lorem ipsum 
-                        </p>
-                        <div>
-                        <p class="meetup-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                        </div>
-                        </Div>
-                        </fieldset>
-
-                    </Div>
-                <fieldset>
-                    <legend>Description</legend>
-                        <Div class="description">
-                            <p class= meetup-title>
-                                Lorem ipsum 
-                            </p>
-                            <div>
-                            <p class="meetup-description">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                                </div>
-        
-                            </Div>    
-                            </fieldset>             -->
-
+            <fieldset>
+                <legend>Map</legend>
+                <div id="map"></div>
+            </fieldset>
         </div>
-    </div> 
-    <div class="description" data-popUp>
-
-    </div>
+        <div class="description" data-popUp></div>
+    </main>
     <section data-eventList></section>
     <script src="scripts/config.js"></script>
     <script src="scripts/sampleData.js"></script>
