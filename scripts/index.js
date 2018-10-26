@@ -9,6 +9,10 @@ const sectionEventList = document.querySelector('[data-eventList]');
 const pinInfoPopUp = document.querySelector('[data-popUP]');
 const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
+// =================================
+// GLOBAL VARIABLE DEFINITIONS
+// =================================
+let eventArray = [];
 
 // =================================
 // FUNCTION DEDEFINITIONS
@@ -52,7 +56,10 @@ function extract(returnedData) {
 
 function displayResults(results) {
     sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
-    results.forEach(addEventDiv);
+    results.forEach(x => {
+        addEventDiv(x);
+        pushEventToEventArray(x);
+    });
     return results;
 }
 
@@ -76,6 +83,36 @@ function addEventDiv(event) {
     newEvent.appendChild(newEventSummary);
     newEvent.appendChild(newEventDetails);
     sectionEventList.appendChild(newEvent);
+}
+
+function pushEventToEventArray(event) {
+    // event is an object with key-value pairs containing details for an event
+    // This function gets pertinent details and adds the event to eventArray to be used after the initial fetch concludes.
+    let eventInfo = {};
+
+    eventInfo['id'] = event.id;
+    eventInfo['eventName'] = event.name;
+    eventInfo['Description'] = event.description;
+    eventInfo['eventUrl'] = event.event_url;
+    eventInfo['time'] = getEventTime(event.time);
+    eventInfo['group'] = event.group.name;
+    eventInfo['groupUrl'] = `https://www.meetup.com/${event.group.urlname}`;
+
+    //account for case where event does not include separate venue info
+    if (Object.keys(event).includes('venue')) {
+        eventInfo['venueName'] = event.venue.name;
+        eventInfo['venueAddress'] = event.venue.address_1;
+        eventInfo['venueCity'] = event.venue.city;
+        eventInfo['lat'] = event.venue.lat;
+        eventInfo['lon'] = event.venue.lon;
+    } else {
+        eventInfo['venueName'] = "";
+        eventInfo['venueAddress'] = "";
+        eventInfo['venueCity'] = "";
+        eventInfo['lat'] = event.group.group_lat;
+        eventInfo['lon'] = event.group.group_lon;
+    }
+    eventArray.push(eventInfo);
 }
 
 function getEventTime(epochTime) {
