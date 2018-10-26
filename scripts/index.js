@@ -13,6 +13,7 @@ const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 // GLOBAL VARIABLE DEFINITIONS
 // =================================
 let eventArray = [];
+let markerArray = [];
 
 // =================================
 // FUNCTION DEDEFINITIONS
@@ -60,6 +61,7 @@ function displayResults(results) {
         addEventDiv(x);
         pushEventToEventArray(x);
     });
+    if (results.length === 0) {sectionEventList.textContent = "No results";}
     return results;
 }
 
@@ -206,6 +208,8 @@ function mapPins(pins) {
                     <p><strong>Location: </strong>${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}</p>
                     <p><strong>Description: </strong>${eventArray[i].Description}</p>
                     <p><a href="${eventArray[i].eventUrl}" target="_blank">See event details on Meetup.com</a></p>`;
+                // if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.classList.toggle("changeWidth");}
+                if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.className = "description changeWidth";}
                 pinInfoPopUp.innerHTML = "";
                 newEvent.appendChild(newEventDetails);
                 pinInfoPopUp.appendChild(newEvent);
@@ -225,6 +229,7 @@ function handleSubmit(event) {
 	// RESET eventArray and popup div content
     eventArray = [];
     pinInfoPopUp.innerHTML = "";
+    pinInfoPopUp.className = "description";
 
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
