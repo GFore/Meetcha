@@ -219,12 +219,12 @@ function mapPins(pins) {
 
 function handleSubmit(event) {
 	event.preventDefault();
-	console.log('submit was clicked');
+	//console.log('submit was clicked');
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
     const urlZip = `&zip=${formZipcode.value}`;
     const urlRadius = `&radius=${formRadius.value}`;
-    const urlCategory = `&category=${formCategoryDropdown.value}&order=time`;
+    const urlCategory = (formCategoryDropdown.value === "0") ? `&order=time` : `&category=${formCategoryDropdown.value}&order=time`;
     // NEED TO HANDLE CASES WHERE FORM FIELDS WERE LEFT BLANK
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
