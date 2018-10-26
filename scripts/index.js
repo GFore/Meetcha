@@ -220,8 +220,12 @@ function mapPins(pins) {
 }
 
 function handleSubmit(event) {
-	event.preventDefault();
-	//console.log('submit was clicked');
+    event.preventDefault();
+    
+	// RESET eventArray and popup div content
+    eventArray = [];
+    pinInfoPopUp.innerHTML = "";
+
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
     const urlZip = `&zip=${formZipcode.value}`;
