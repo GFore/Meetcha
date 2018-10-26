@@ -49,7 +49,8 @@ function extract(returnedData) {
     return returnedData.results;
 }
 
-function displayResults(results) {      // TBD - function to add DIVs containing events
+function displayResults(results) {
+    sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     results.forEach(addEventDiv);
     return results;
 }
@@ -58,19 +59,22 @@ function addEventDiv(event) {
     //event is an object with key-value pairs containing details for an event - see the results
     // const in sampleData.js for an example of the event data
     // This function will add a div to the html body element that displays info for the event.
-    //debugger;
     let newEvent = document.createElement("details");
     let newEventSummary = document.createElement("summary");
     let newEventDetails = document.createElement("div");
-    newEventSummary.innerHTML = `<h3>Event: ${event.name}</h3>`;
-    newEventDetails.innerHTML = `
-        <p>Description:${event.description}</p>
+    newEventSummary.innerHTML = `<strong>${getEventTime(event.time)}, ${event.name}</strong> (<i><a href="https://www.meetup.com/${event.group.urlname}" target="_blank">${event.group.name}</a></i>)`;
+
+    //Display the venue location info if included, nothing for venue if not included
+    if (Object.keys(event).includes('venue')) {
+        newEventDetails.innerHTML = `<p><strong>Location: </strong>${event.venue.name}, ${event.venue.address_1}, ${event.venue.city}</p>`;
+    }
+
+    newEventDetails.innerHTML += `
+        <p><strong>Description: </strong>${event.description}</p>
         <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
-    //console.log('creating event div');
     newEvent.appendChild(newEventSummary);
     newEvent.appendChild(newEventDetails);
     sectionEventList.appendChild(newEvent);
-    //debugger;
 }
 
 function getEventTime(epochTime) {
