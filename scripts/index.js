@@ -6,6 +6,7 @@ const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
 const sectionEventList = document.querySelector('[data-eventList]');
+const pinInfoPopUp = document.querySelector('[data-popUP]');
 const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 
@@ -154,9 +155,16 @@ function mapPins(pins) {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
             return function (){
-                infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + 'this is a generic description');
+                infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + pins[i].eventTime);
                 infowindow.open(map,marker);
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
+                let newEvent = document.createElement("header");
+                let newEventDetails = document.createElement("div");
+                newEventDetails.innerHTML += `<p><strong>Event: </strong>${pins[i].eventName}</p><p><strong>Date: </strong>${pins[i].eventTime}</p>`;
+                pinInfoPopUp.innerHTML = ""
+                newEvent.appendChild(newEventDetails);
+                pinInfoPopUp.appendChild(newEvent);
+
             }
         })(marker, i));
     }
