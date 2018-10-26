@@ -181,7 +181,7 @@ function mapPins(pins) {
     });
 
     // draw pins and make them clickable
-    let markerInfo = [];
+    // let markerInfo = [];
     let marker, i
     let infowindow = new google.maps.InfoWindow({});
     for(i = 0; i < pins.length; i++){
@@ -190,7 +190,7 @@ function mapPins(pins) {
             map: map
         });
 
-        markerInfo.push(marker);
+        // markerInfo.push(marker);
 
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
@@ -213,7 +213,7 @@ function mapPins(pins) {
             }
         })(marker, i));
     }
-    console.log(markerInfo);
+    // console.log(markerInfo);
     // console.table(pins);
     // console.table(eventArray);
     return pins;
