@@ -17,10 +17,10 @@
     <form action="https://api.meetup.com/find/groups" method="GET" data-form>
         <fieldset>
             <legend>Information</legend>
-       <td><label for="zipcode">Zipcode: <input type="text" name="zipcode" data-zipcode></label>
+        <td><label for="zipcode">Zipcode: <input type="text" name="zipcode" data-zipcode></label>
         <label for="radius">Radius: <input type="number" name="radius" min=1 max=100 data-radius></label><br>
         <label for="category">
-       <select name="category" data-category>
+        <select name="category" data-category>
         </select></label>
         <input type="submit" value="Submit"></nobr>  <!-- onclick="fetchMeetupData()"-->
         <input type="reset" value="Reset"></nobr>
@@ -69,7 +69,7 @@
 
         </div>
     </div> 
-    <div class="description">
+    <div class="description" data-popUp>
 
     </div>
     <section data-eventList></section>

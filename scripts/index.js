@@ -6,6 +6,7 @@ const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
 const sectionEventList = document.querySelector('[data-eventList]');
+const pinInfoPopUp = document.querySelector('[data-popUP]');
 const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 
@@ -19,8 +20,8 @@ function getLocation(cb) {
         navigator.geolocation.getCurrentPosition(function(location) {
             lats = location.coords.latitude;
             longs = location.coords.longitude;
-          console.log("Your Lat/Lon: " + lats + "/" + longs);
-          cb({'myLat': lats, 'myLon': longs});
+            console.log("Your Lat/Lon: " + lats + "/" + longs);
+            cb({'myLat': lats, 'myLon': longs});
         })}    
 }
 
@@ -125,12 +126,16 @@ function getPinInfo(results) {
 }
 
 
-function mapPins(pins) {      // TBD - placeholder for function to display pins on map - replace with Kyle's work
+function mapPins(pins) {      
+    // First rewrites the map centered on the zipcode that is put in the 
+    // for field
+    // then takes the pins info and uses the long/lat to set the pins
+    // the pins will show specific info when clicked
     
     const address = formZipcode.value;
     console.log('drawing map');
     let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
+        zoom: 13,
         //mapTypeId: google.maps.mapTypeId.ROADMAP
     });
     let geocoder = new google.maps.Geocoder();
@@ -148,9 +153,18 @@ function mapPins(pins) {      // TBD - placeholder for function to display pins 
         });
 
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            
             return function (){
-                infowindow.setContent(pins[i].eventName);
+                infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + pins[i].eventTime);
                 infowindow.open(map,marker);
+                // marker.setAnimation(google.maps.Animation.BOUNCE);
+                let newEvent = document.createElement("header");
+                let newEventDetails = document.createElement("div");
+                newEventDetails.innerHTML += `<p><strong>Event: </strong>${pins[i].eventName}</p><p><strong>Date: </strong>${pins[i].eventTime}</p>`;
+                pinInfoPopUp.innerHTML = ""
+                newEvent.appendChild(newEventDetails);
+                pinInfoPopUp.appendChild(newEvent);
+
             }
         })(marker, i));
     }
