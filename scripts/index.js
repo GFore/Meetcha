@@ -49,7 +49,8 @@ function extract(returnedData) {
     return returnedData.results;
 }
 
-function displayResults(results) {      // TBD - function to add DIVs containing events
+function displayResults(results) {
+    sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     results.forEach(addEventDiv);
     return results;
 }
@@ -58,7 +59,6 @@ function addEventDiv(event) {
     //event is an object with key-value pairs containing details for an event - see the results
     // const in sampleData.js for an example of the event data
     // This function will add a div to the html body element that displays info for the event.
-    //debugger;
     let newEvent = document.createElement("details");
     let newEventSummary = document.createElement("summary");
     let newEventDetails = document.createElement("div");
