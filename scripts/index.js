@@ -181,6 +181,7 @@ function mapPins(pins) {
     });
 
     // draw pins and make them clickable
+    // let markerInfo = [];
     let marker, i
     let infowindow = new google.maps.InfoWindow({});
     for(i = 0; i < pins.length; i++){
@@ -189,24 +190,32 @@ function mapPins(pins) {
             map: map
         });
 
+        // markerInfo.push(marker);
+
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
             return function (){
                 infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + pins[i].eventTime);
                 infowindow.open(map,marker);
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
-                let newEvent = document.createElement("header");
+                let newEvent = document.createElement("p");
                 let newEventDetails = document.createElement("div");
-                newEventDetails.innerHTML += `<p><strong>Event: </strong>${pins[i].eventName}</p><p><strong>Date: </strong>${pins[i].eventTime}</p>`;
-                pinInfoPopUp.innerHTML = ""
+                newEventDetails.innerHTML += 
+                    `<h3><strong>Event: </strong>${pins[i].eventName}</h3>
+                    <p><strong>Date: </strong>${pins[i].eventTime}</p>
+                    <p><strong>Location: </strong>${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}</p>
+                    <p><strong>Description: </strong>${eventArray[i].Description}</p>
+                    <p><a href="${eventArray[i].eventUrl}" target="_blank">See event details on Meetup.com</a></p>`;
+                pinInfoPopUp.innerHTML = "";
                 newEvent.appendChild(newEventDetails);
                 pinInfoPopUp.appendChild(newEvent);
 
             }
         })(marker, i));
     }
-
-    console.table(pins);
+    // console.log(markerInfo);
+    // console.table(pins);
+    // console.table(eventArray);
     return pins;
 }
 
