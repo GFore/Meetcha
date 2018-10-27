@@ -13,6 +13,7 @@ const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 // GLOBAL VARIABLE DEFINITIONS
 // =================================
 let eventArray = [];
+let markerArray = [];
 
 // =================================
 // FUNCTION DEDEFINITIONS
@@ -56,14 +57,15 @@ function extract(returnedData) {
 
 function displayResults(results) {
     sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
-    results.forEach(x => {
-        addEventDiv(x);
+    results.forEach((x, i) => {
+        addEventDiv(x, i);
         pushEventToEventArray(x);
     });
+    if (results.length === 0) {sectionEventList.textContent = "No results";}
     return results;
 }
 
-function addEventDiv(event) {
+function addEventDiv(event, i) {
     //event is an object with key-value pairs containing details for an event - see the results
     // const in sampleData.js for an example of the event data
     // This function will add a div to the html body element that displays info for the event.
@@ -83,6 +85,19 @@ function addEventDiv(event) {
     newEvent.appendChild(newEventSummary);
     newEvent.appendChild(newEventDetails);
     sectionEventList.appendChild(newEvent);
+    newEventSummary.addEventListener('mouseenter', x => {
+        // console.log(markerArray[i]())
+        if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
+            markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
+          } else {
+            markerArray[i].setAnimation(null);
+          }
+    });
+    newEventSummary.addEventListener('mouseleave', x => {
+        // console.log(markerArray[i]())
+        markerArray[i].setAnimation(null);
+        }
+    );
 }
 
 function pushEventToEventArray(event) {
@@ -194,7 +209,7 @@ function mapPins(pins) {
 
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
-            return function (){
+            let callback = function (){
                 infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + pins[i].eventTime);
                 infowindow.open(map,marker);
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -206,12 +221,16 @@ function mapPins(pins) {
                     <p><strong>Location: </strong>${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}</p>
                     <p><strong>Description: </strong>${eventArray[i].Description}</p>
                     <p><a href="${eventArray[i].eventUrl}" target="_blank">See event details on Meetup.com</a></p>`;
+                // if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.classList.toggle("changeWidth");}
+                if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.className = "description changeWidth";}
                 pinInfoPopUp.innerHTML = "";
                 newEvent.appendChild(newEventDetails);
                 pinInfoPopUp.appendChild(newEvent);
 
             }
+            return callback;
         })(marker, i));
+        markerArray.push(marker);
     }
     // console.log(markerInfo);
     // console.table(pins);
@@ -224,7 +243,9 @@ function handleSubmit(event) {
     
 	// RESET eventArray and popup div content
     eventArray = [];
+    markerArray = [];
     pinInfoPopUp.innerHTML = "";
+    pinInfoPopUp.className = "description";
 
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;

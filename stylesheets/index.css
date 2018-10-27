@@ -15,8 +15,9 @@ section {
     padding: 10px;
     overflow: scroll;
     height: 50vh;
+    width: 66%;
 }
-
+summary {margin: 15px 0;}
 
 header {
     text-align: center;
@@ -49,9 +50,13 @@ header {
 }
 
 .description {
-    width: 30%;
+    /* width: 30%; */
     height: 50vh;
     overflow: scroll;
     padding: 10px;
 
 }
+
+.changeWidth {
+    width: 30%;
+   }
