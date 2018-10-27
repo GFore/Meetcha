@@ -18,6 +18,9 @@ section {
     width: 66%;
 }
 summary {margin: 15px 0;}
+details>div>p {
+    padding: 0 30px;
+}
 
 header {
     text-align: center;
@@ -60,3 +63,9 @@ header {
 .changeWidth {
     width: 30%;
    }
+
+.noResults {
+    color: brown;
+    text-align: center;
+    margin: 8px 0;
+}

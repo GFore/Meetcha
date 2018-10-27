@@ -5,6 +5,7 @@ const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
+const noResultsDiv = document.querySelector('[data-noResults]');
 const sectionEventList = document.querySelector('[data-eventList]');
 const pinInfoPopUp = document.querySelector('[data-popUP]');
 const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
@@ -61,7 +62,9 @@ function displayResults(results) {
         addEventDiv(x, i);
         pushEventToEventArray(x);
     });
-    if (results.length === 0) {sectionEventList.textContent = "No results";}
+    if (results.length === 0) {
+        noResultsDiv.innerHTML = '<strong>No events found. Please enter a larger radius or select All Categories</strong>';
+    }
     return results;
 }
 
@@ -244,6 +247,7 @@ function handleSubmit(event) {
 	// RESET eventArray and popup div content
     eventArray = [];
     markerArray = [];
+    noResultsDiv.innerHTML = "";
     pinInfoPopUp.innerHTML = "";
     pinInfoPopUp.className = "description";
 
