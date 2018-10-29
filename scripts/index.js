@@ -133,9 +133,9 @@ function addEventDivAccordion(event, i) {
         // console.log(markerArray[i]())
         if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
             markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
-          } else {
+        } else {
             markerArray[i].setAnimation(null);
-          }
+        }
     });
     newEventSummary.addEventListener('mouseleave', x => {
         // console.log(markerArray[i]())
@@ -146,11 +146,11 @@ function addEventDivAccordion(event, i) {
         this.classList.toggle("active");
         let panel = this.nextElementSibling;
         if (panel.style.maxHeight){
-          panel.style.maxHeight = null;
+            panel.style.maxHeight = null;
         } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
+            panel.style.maxHeight = panel.scrollHeight + "px";
         } 
-      });
+    });
 }
 
 function pushEventToEventArray(event) {
