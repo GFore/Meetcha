@@ -304,7 +304,7 @@ function mapPins(pins) {
 function handleSubmit(event) {
     event.preventDefault();
     handleReset();
-
+    btnReset.removeAttribute('disabled');
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
     const urlZip = `&zip=${formZipcode.value}`;
@@ -330,6 +330,7 @@ function handleReset() {
     pinInfoPopUp.className = "description noDisplay";
     eventListAccordion.innerHTML = ""
     mapPins([]);
+    btnReset.setAttribute('disabled', '');
 }
     
     
@@ -339,4 +340,7 @@ function handleReset() {
 
 categories.forEach(x => drawOption(x.name, x.id));      //builds Categories dropdown 
 getMeetupForm.addEventListener('submit', handleSubmit);
-btnReset.addEventListener('click', handleReset);
+btnReset.addEventListener('click', function(){
+    handleReset();
+    formZipcode.value = '';
+});
