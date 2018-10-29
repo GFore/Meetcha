@@ -3,60 +3,98 @@ html {box-sizing: border-box;}
 *, *:before, *:after {box-sizing: inherit;}
 
 /* chef aquino's special sauce */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+html, body { margin: 0; padding: 0; height: 100%; width: 100%;
+    font-family: Geneva, Arial, sans-serif;
 }
 
-input {margin: 3px 3px 3px 1px}
-section {
-    padding: 10px;
-    overflow: scroll;
-    height: 50vh;
-    width: 66%;
-}
-summary {margin: 15px 0;}
-
-header {
-    text-align: center;
-}
-
-/*  */
-#map {
-    height: 50vh;
-    width: 66%;
-}
+header {text-align: center;}
 
 .formItems {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
     justify-content: center;
     align-items: center;
-    display: i
+    /* outline: 1px blue solid; */
+    margin: 1px;
 }
 
 .formItems>div {
     margin: 5px;
 }
 
+input, select {
+    margin: 3px 3px 3px 1px;
+    padding: 4px;
+    font-size: small;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+#map {
+    height: 66vh;
+    width: 90%;
+    /* outline: 1px red solid; */
+}
+
 .map-field {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
     border: 2px brown solid;
     justify-content: center
 }
 
 .description {
-    /* width: 30%; */
-    height: 50vh;
+    max-height: 50vh;
     overflow: scroll;
     padding: 10px;
+    width: 90%;
+    /* outline: 1px red solid; */
 
 }
 
 .changeWidth {
-    width: 30%;
+    /* width: 30%; */
+    /* width: 90%; */
    }
+
+.noResults {
+    color: brown;
+    text-align: center;
+    margin: 8px 0;
+}
+
+section {
+    padding: 10px;
+    overflow: scroll;
+    height: 50vh;
+    /* width: 90%; */
+}
+
+summary {margin: 15px 0;}
+details>div>p {padding: 0 30px;}
+
+
+@media screen and (min-width: 650px) {
+/*  */
+.map-field {
+    flex-direction: row;
+}
+
+.formItems {
+    width: 33%;
+    height: 66vh;
+    justify-content: flex-start
+}
+
+#map {
+    width: 66%;
+}
+
+/* .description {
+    width: 30%;
+} */
+
+}
