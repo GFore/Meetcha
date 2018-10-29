@@ -52,14 +52,21 @@ All team members are students in the [Digital Crafts](https://www.digitalcrafts.
 
   1. **Challenge:** Google Maps API manipulation
 
-    **Solution:** Google Maps API worked differently than any API we've already used. After reading through the Google Maps JavaScript API  documentation given it became more clear. However, most of the code samples were for very simple, specific tasks. Through quite a bit of research and rereading the documentation several times we were able to accomplish most of what we wanted to.
+    i. **Solution:** Google Maps API worked differently than any API we've already used. After reading through the 
+    Google Maps JavaScript API  documentation given it became more clear. However, most of the code samples were 
+    for very simple, specific tasks. Through quite a bit of research and rereading the documentation several 
+    times we were able to accomplish most of what we wanted to.
 
   2. **Challenge:** Styling
 
-    **Solution:** Flexbox with different media queries is a difficult task to tackle. We were seeing behaviours that made no sense to us. We were able to power through and make constant small changes till we got the effect we wanted.
+    i. **Solution:** Flexbox with different media queries is a difficult task to tackle. We were seeing behaviours 
+    that made no sense to us. We were able to power through and make constant small changes till we got the effect 
+    we wanted.
 
   3. **Challenge:** When to use as global variables
 
-    **Solution:** When first create the flow of our project we didn't take into account what would need to be stored globally to be accessed later. This challenge wasn't much of a hurdle as we quickly realized as we ran into a coding wall that we needed to be passing more information to each function. 
+    i. **Solution:** When first create the flow of our project we didn't take into account what would need to be 
+    stored globally to be accessed later. This challenge wasn't much of a hurdle as we quickly realized as we ran 
+    into a coding wall that we needed to be passing more information to each function. 
 
 ## Screenshots or GIF
