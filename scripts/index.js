@@ -328,7 +328,7 @@ function handleReset() {
     noResultsDiv.className = "noResults noDisplay";
     pinInfoPopUp.innerHTML = "";
     pinInfoPopUp.className = "description noDisplay";
-    eventListAccordion.innerHTML = ""
+    eventListAccordion.innerHTML = "";
     mapPins([]);
     btnReset.setAttribute('disabled', '');
 }
@@ -341,6 +341,7 @@ function handleReset() {
 categories.forEach(x => drawOption(x.name, x.id));      //builds Categories dropdown 
 getMeetupForm.addEventListener('submit', handleSubmit);
 btnReset.addEventListener('click', function(){
+    formRadius.value = '1';
     handleReset();
     formZipcode.value = '';
 });
