@@ -17,14 +17,14 @@
             <form action="https://api.meetup.com/find/groups" method="GET" data-form class="formItems">
                 <!-- <div class="formItems"> -->
                     <div>
-                        <label for="zipcode">Zip Code: <input type="text" name="zipcode" size="6" data-zipcode></label></div>
+                        <label for="zipcode">Zip Code:<br><input type="text" name="zipcode" size="6" data-zipcode></label></div>
                     <div>
-                        <label for="radius">Radius (mi): <input type="number" name="radius" value = "1" min=1 max=100 data-radius></label>
+                        <label for="radius">Radius (mi):<br><input type="number" name="radius" value = "1" min=1 max=100 data-radius></label>
                     </div>
-                    <div style="text-align: center"><label for="category">Category:<br><select name="category" data-category></select></label></div>
+                    <div><label for="category">Category:<br><select name="category" data-category></select></label></div>
                     <div><input type="submit" value="Submit"><input type="reset" value="Reset"></div>
-                    <div class="noResults" data-noResults></div>
-                    <div class="description" data-popUp></div>
+                    <div class="noResults noDisplay" data-noResults></div>
+                    <div class="description noDisplay" data-popUp></div>
                 <!-- </div> -->
             </form>
             <div id="map"></div>

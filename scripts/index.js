@@ -66,7 +66,8 @@ function displayResults(results) {
         pushEventToEventArray(x);
     });
     if (results.length === 0) {
-        noResultsDiv.innerHTML = '<strong>No events found. Please enter a larger radius or select All Categories</strong>';
+        noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
+        noResultsDiv.className = "noResults";
     }
     return results;
 }
@@ -281,9 +282,8 @@ function mapPins(pins) {
                     <p><strong>Location: </strong>${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}</p>
                     <p><strong>Description: </strong>${eventArray[i].Description}</p>
                     <p><a href="${eventArray[i].eventUrl}" target="_blank">See event details on Meetup.com</a></p>`;
-                // if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.classList.toggle("changeWidth");}
-                if (pinInfoPopUp.innerHTML === "") {pinInfoPopUp.className = "description changeWidth";}
                 pinInfoPopUp.innerHTML = "";
+                pinInfoPopUp.className = "description";
                 newEvent.appendChild(newEventDetails);
                 pinInfoPopUp.appendChild(newEvent);
 
@@ -306,7 +306,8 @@ function handleSubmit(event) {
     markerArray = [];
     noResultsDiv.innerHTML = "";
     pinInfoPopUp.innerHTML = "";
-    pinInfoPopUp.className = "description";
+    pinInfoPopUp.className = "description noDisplay";
+    noResultsDiv.className = "noResults noDisplay";
 
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
