@@ -6,8 +6,9 @@ const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
 const noResultsDiv = document.querySelector('[data-noResults]');
-const sectionEventList = document.querySelector('[data-eventList]');
+// const sectionEventList = document.querySelector('[data-eventList]');
 const pinInfoPopUp = document.querySelector('[data-popUP]');
+const eventListAccordion = document.querySelector('[data-eventListAccordion]');
 const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 // =================================
@@ -57,9 +58,11 @@ function extract(returnedData) {
 }
 
 function displayResults(results) {
-    sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
+    // sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
+    eventListAccordion.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     results.forEach((x, i) => {
-        addEventDiv(x, i);
+        // addEventDiv(x, i);
+        addEventDivAccordion(x, i);
         pushEventToEventArray(x);
     });
     if (results.length === 0) {
@@ -101,6 +104,53 @@ function addEventDiv(event, i) {
         markerArray[i].setAnimation(null);
         }
     );
+}
+
+function addEventDivAccordion(event, i) {
+    //event is an object with key-value pairs containing details for an event - see the results
+    // const in sampleData.js for an example of the event data
+    // This function will add a div to the html body element that displays info for the event.
+    let newEvent = document.createElement("div");
+    let newEventSummary = document.createElement("button");
+    newEventSummary.className = "accordion";
+    let newEventDetails = document.createElement("div");
+    newEventDetails.className = "panel";
+
+    newEventSummary.innerHTML = `<strong>${getEventTime(event.time)}, ${event.name}</strong> (<i><a href="https://www.meetup.com/${event.group.urlname}" target="_blank">${event.group.name}</a></i>)`;
+
+    //Display the venue location info if included, nothing for venue if not included
+    if (Object.keys(event).includes('venue')) {
+        newEventDetails.innerHTML = `<p><strong>Location: </strong>${event.venue.name}, ${event.venue.address_1}, ${event.venue.city}</p>`;
+    }
+
+    newEventDetails.innerHTML += `
+        <p><strong>Description: </strong>${event.description}</p>
+        <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
+    newEvent.appendChild(newEventSummary);
+    newEvent.appendChild(newEventDetails);
+    eventListAccordion.appendChild(newEvent);
+    newEventSummary.addEventListener('mouseenter', x => {
+        // console.log(markerArray[i]())
+        if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
+            markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
+          } else {
+            markerArray[i].setAnimation(null);
+          }
+    });
+    newEventSummary.addEventListener('mouseleave', x => {
+        // console.log(markerArray[i]())
+        markerArray[i].setAnimation(null);
+        }
+    );
+    newEventSummary.addEventListener("click", function() {
+        this.classList.toggle("active");
+        let panel = this.nextElementSibling;
+        if (panel.style.maxHeight){
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        } 
+      });
 }
 
 function pushEventToEventArray(event) {

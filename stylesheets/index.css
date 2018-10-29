@@ -42,12 +42,12 @@ input, select {
     flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
-    border: 2px brown solid;
+    /* border: 2px brown solid; */
     justify-content: center
 }
 
 .description {
-    max-height: 50vh;
+    max-height: 25vh;
     overflow: scroll;
     padding: 10px;
     width: 90%;
@@ -66,15 +66,45 @@ input, select {
     margin: 8px 0;
 }
 
-section {
-    padding: 10px;
+.eventList {
+    /* padding: 10px; */
     overflow: scroll;
     height: 50vh;
-    /* width: 90%; */
+    margin: 2px;
+    width: 100%;
 }
 
 summary {margin: 15px 0;}
 details>div>p {padding: 0 30px;}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    /* display: none; */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
 
 
 @media screen and (min-width: 650px) {
@@ -89,12 +119,56 @@ details>div>p {padding: 0 30px;}
     justify-content: flex-start
 }
 
+.description {
+    max-height: unset;
+}
+
 #map {
     width: 66%;
 }
+
+
 
 /* .description {
     width: 30%;
 } */
 
 }
+
+
+@media screen and (min-width: 1300px) {
+    /*  */
+    .map-field {
+        flex-direction: row;
+    }
+    
+    .formItems {
+        width: 20%;
+        height: 85vh;
+        justify-content: flex-start
+    }
+    
+    .description {
+        max-height: unset;
+    }
+    
+    #map {
+        height: 85vh;
+        width: 50%;
+    }
+    
+    
+    
+    /* .description {
+        width: 30%;
+    } */
+    
+    .eventList {
+        /* padding: 10px; */
+        overflow: scroll;
+        height: 85vh;
+        margin: 2px;
+        width: 25%;
+    }
+
+    }
