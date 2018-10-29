@@ -211,9 +211,6 @@ function getPinInfo(results) {
     let pins = [];
     let eventInfo;
     results.forEach(x => {
-        //debugger;
-        //console.log(`Pins size: ${pins.length}`);
-        //console.log(`${x.time} is ${getEventTime(x.time)}`);
         eventInfo = {};
         eventInfo['id'] = x.id;
         eventInfo['eventName'] = x.name;
@@ -234,8 +231,8 @@ function getPinInfo(results) {
                 eventInfo.lon += 0.00001;  
             }
         })
-        pins.push(eventInfo)});
-    //debugger;
+        pins.push(eventInfo)
+    });
     return pins;
 }
 
@@ -262,7 +259,6 @@ function mapPins(pins) {
     });
 
     // draw pins and make them clickable
-    // let markerInfo = [];
     let marker, i;
     let infowindow = new google.maps.InfoWindow({});
     for(i = 0; i < pins.length; i++){
@@ -281,10 +277,15 @@ function mapPins(pins) {
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
                 let newEvent = document.createElement("p");
                 let newEventDetails = document.createElement("div");
+                let loc = "no venue specified";
+                if (eventArray[i].venueName !== "") {
+                    loc = `${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}`;
+                }
+                
                 newEventDetails.innerHTML += 
                     `<h3><strong>Event: </strong>${pins[i].eventName}</h3>
                     <p><strong>Date: </strong>${pins[i].eventTime}</p>
-                    <p><strong>Location: </strong>${eventArray[i].venueName}, ${eventArray[i].venueAddress}, ${eventArray[i].venueCity}</p>
+                    <p><strong>Location: </strong>${loc}</p>
                     <p><strong>Description: </strong>${eventArray[i].Description}</p>
                     <p><a href="${eventArray[i].eventUrl}" target="_blank">See event details on Meetup.com</a></p>`;
                 pinInfoPopUp.innerHTML = "";
@@ -297,23 +298,12 @@ function mapPins(pins) {
         })(marker, i));
         markerArray.push(marker);
     }
-    // console.log(markerInfo);
-    // console.table(pins);
-    // console.table(eventArray);
     return pins;
 }
 
 function handleSubmit(event) {
     event.preventDefault();
-    
-	// RESET eventArray and popup div content
-    eventArray = [];
-    markerArray = [];
-    noResultsDiv.innerHTML = "";
-    noResultsDiv.className = "noResults noDisplay";
-    pinInfoPopUp.innerHTML = "";
-    pinInfoPopUp.className = "description noDisplay";
-    eventListAccordion.innerHTML = ""
+    handleReset();
 
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
@@ -323,8 +313,6 @@ function handleSubmit(event) {
     // NEED TO HANDLE CASES WHERE FORM FIELDS WERE LEFT BLANK
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
-    //debugger;
-    // drawMap();
     fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
         .then(r => r.json())
         .then(extract)
@@ -334,9 +322,6 @@ function handleSubmit(event) {
 }
 
 function handleReset() {
-    //event.preventDefault();
-    
-	// RESET eventArray and popup div content
     eventArray = [];
     markerArray = [];
     noResultsDiv.innerHTML = "";
@@ -352,8 +337,6 @@ function handleReset() {
 // MAIN
 // =================================
 
-// forEach loop to build dropdown list of categories by adding child option
-// elements to the select element in the html file
-categories.forEach(x => drawOption(x.name, x.id));
+categories.forEach(x => drawOption(x.name, x.id));      //builds Categories dropdown 
 getMeetupForm.addEventListener('submit', handleSubmit);
 btnReset.addEventListener('click', handleReset);
