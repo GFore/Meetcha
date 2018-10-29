@@ -95,9 +95,9 @@ function addEventDiv(event, i) {
         // console.log(markerArray[i]())
         if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
             markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
-          } else {
+        } else {
             markerArray[i].setAnimation(null);
-          }
+        }
     });
     newEventSummary.addEventListener('mouseleave', x => {
         // console.log(markerArray[i]())
