@@ -1,15 +1,16 @@
 // =================================
 // CONSTANT DEFINITIONS
 // =================================
+const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
+const btnReset = document.querySelector('[data-btnReset]');
 const noResultsDiv = document.querySelector('[data-noResults]');
 // const sectionEventList = document.querySelector('[data-eventList]');
 const pinInfoPopUp = document.querySelector('[data-popUP]');
 const eventListAccordion = document.querySelector('[data-eventListAccordion]');
-const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
 
 // =================================
 // GLOBAL VARIABLE DEFINITIONS
@@ -239,9 +240,13 @@ function mapPins(pins) {
     // the pins will show specific info when clicked
     
     const address = formZipcode.value;
+    let zoomLevel = 13;
+    if (formRadius.value > 9) {zoomLevel = 12};
+    if (formRadius.value > 24) {zoomLevel = 11};
+    if (formRadius.value > 49) {zoomLevel = 10};
     console.log('drawing map');
     let map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
+        zoom: zoomLevel,
         //mapTypeId: google.maps.mapTypeId.ROADMAP
     });
     let geocoder = new google.maps.Geocoder();
@@ -298,9 +303,10 @@ function handleSubmit(event) {
     eventArray = [];
     markerArray = [];
     noResultsDiv.innerHTML = "";
+    noResultsDiv.className = "noResults noDisplay";
     pinInfoPopUp.innerHTML = "";
     pinInfoPopUp.className = "description noDisplay";
-    noResultsDiv.className = "noResults noDisplay";
+    eventListAccordion.innerHTML = ""
 
 	console.log(event.target);
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
@@ -319,6 +325,20 @@ function handleSubmit(event) {
         .then(getPinInfo)
         .then(mapPins);
 }
+
+function handleReset() {
+    //event.preventDefault();
+    
+	// RESET eventArray and popup div content
+    eventArray = [];
+    markerArray = [];
+    noResultsDiv.innerHTML = "";
+    noResultsDiv.className = "noResults noDisplay";
+    pinInfoPopUp.innerHTML = "";
+    pinInfoPopUp.className = "description noDisplay";
+    eventListAccordion.innerHTML = ""
+    mapPins([]);
+}
     
     
 // =================================
@@ -329,3 +349,4 @@ function handleSubmit(event) {
 // elements to the select element in the html file
 categories.forEach(x => drawOption(x.name, x.id));
 getMeetupForm.addEventListener('submit', handleSubmit);
+btnReset.addEventListener('click', handleReset);
