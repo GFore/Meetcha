@@ -8,7 +8,6 @@ const formRadius = document.querySelector('[data-radius]');
 const formCategoryDropdown = document.querySelector('[data-category]');
 const btnReset = document.querySelector('[data-btnReset]');
 const noResultsDiv = document.querySelector('[data-noResults]');
-// const sectionEventList = document.querySelector('[data-eventList]');
 const pinInfoPopUp = document.querySelector('[data-popUP]');
 const eventListAccordion = document.querySelector('[data-eventListAccordion]');
 
@@ -45,11 +44,11 @@ function initMap() {
 
 function drawOption(catName, catID) {
     /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
-        const newOption = document.createElement('option');
-        newOption.setAttribute('value', catID);
-        newOption.textContent = catName;
-        formCategoryDropdown.appendChild(newOption);
-    }
+    const newOption = document.createElement('option');
+    newOption.setAttribute('value', catID);
+    newOption.textContent = catName;
+    formCategoryDropdown.appendChild(newOption);
+}
 
 function extract(returnedData) {
     console.log(returnedData);
@@ -59,53 +58,34 @@ function extract(returnedData) {
 }
 
 function displayResults(results) {
-    // sectionEventList.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     eventListAccordion.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
-    results.forEach((x, i) => {
-        // addEventDiv(x, i);
-        addEventDivAccordion(x, i);
-        pushEventToEventArray(x);
-    });
     if (results.length === 0) {
         noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
-        noResultsDiv.className = "noResults";
+        noResultsDiv.className = "noResults";  //removes the noDisplay class so the div is visible
+    } else {
+        // Add a header to the Event List div
+        addAccordionHeader(results.length);
+
+        // Add each event to the event list accordion
+        results.forEach((x, i) => {
+            addEventDivAccordion(x, i);
+            pushEventToEventArray(x);
+        });
+        
     }
     return results;
 }
 
-function addEventDiv(event, i) {
-    //event is an object with key-value pairs containing details for an event - see the results
-    // const in sampleData.js for an example of the event data
-    // This function will add a div to the html body element that displays info for the event.
-    let newEvent = document.createElement("details");
-    let newEventSummary = document.createElement("summary");
-    let newEventDetails = document.createElement("div");
-    newEventSummary.innerHTML = `<strong>${getEventTime(event.time)}, ${event.name}</strong> (<i><a href="https://www.meetup.com/${event.group.urlname}" target="_blank">${event.group.name}</a></i>)`;
-
-    //Display the venue location info if included, nothing for venue if not included
-    if (Object.keys(event).includes('venue')) {
-        newEventDetails.innerHTML = `<p><strong>Location: </strong>${event.venue.name}, ${event.venue.address_1}, ${event.venue.city}</p>`;
-    }
-
-    newEventDetails.innerHTML += `
-        <p><strong>Description: </strong>${event.description}</p>
-        <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
-    newEvent.appendChild(newEventSummary);
-    newEvent.appendChild(newEventDetails);
-    sectionEventList.appendChild(newEvent);
-    newEventSummary.addEventListener('mouseenter', x => {
-        // console.log(markerArray[i]())
-        if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
-            markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
-        } else {
-            markerArray[i].setAnimation(null);
-        }
-    });
-    newEventSummary.addEventListener('mouseleave', x => {
-        // console.log(markerArray[i]())
-        markerArray[i].setAnimation(null);
-        }
-    );
+function addAccordionHeader(eventCount) {
+    let header = document.createElement("header");
+    let headerH2 = document.createElement("h2");
+    headerH2.textContent = "Meetup Event List";
+    
+    //newEventSummary.className = "accordion";
+    //let newEventDetails = document.createElement("div");
+    header.appendChild(headerH2);
+    header.innerHTML += `<p>Event Count: ${eventCount}</p>Click the Event Name below for more details.`
+    eventListAccordion.appendChild(header);
 }
 
 function addEventDivAccordion(event, i) {
@@ -337,7 +317,7 @@ function handleReset() {
 // =================================
 // MAIN
 // =================================
-
+//mapPins([]);
 categories.forEach(x => drawOption(x.name, x.id));      //builds Categories dropdown 
 getMeetupForm.addEventListener('submit', handleSubmit);
 btnReset.addEventListener('click', function(){
