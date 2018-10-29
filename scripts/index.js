@@ -135,9 +135,9 @@ function addEventDivAccordion(event, i) {
         // console.log(markerArray[i]())
         if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
             markerArray[i].setAnimation(google.maps.Animation.BOUNCE);
-          } else {
+        } else {
             markerArray[i].setAnimation(null);
-          }
+        }
     });
     newEventSummary.addEventListener('mouseleave', x => {
         // console.log(markerArray[i]())
@@ -148,11 +148,11 @@ function addEventDivAccordion(event, i) {
         this.classList.toggle("active");
         let panel = this.nextElementSibling;
         if (panel.style.maxHeight){
-          panel.style.maxHeight = null;
+            panel.style.maxHeight = null;
         } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
+            panel.style.maxHeight = panel.scrollHeight + "px";
         } 
-      });
+    });
 }
 
 function pushEventToEventArray(event) {
@@ -227,6 +227,13 @@ function getPinInfo(results) {
             eventInfo['lat'] = x.group.group_lat;
             eventInfo['lon'] = x.group.group_lon;
         }
+        // Moves pins of same lat/lon to be next to eachother rather than stacked
+        pins.forEach(y => {
+            if (y.lat === eventInfo.lat && y.lon === eventInfo.lon) {
+                eventInfo.lat += 0.00001;
+                eventInfo.lon += 0.00001;  
+            }
+        })
         pins.push(eventInfo)});
     //debugger;
     return pins;
@@ -256,7 +263,7 @@ function mapPins(pins) {
 
     // draw pins and make them clickable
     // let markerInfo = [];
-    let marker, i
+    let marker, i;
     let infowindow = new google.maps.InfoWindow({});
     for(i = 0; i < pins.length; i++){
         marker = new google.maps.Marker({
@@ -269,7 +276,7 @@ function mapPins(pins) {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
             let callback = function (){
-                infowindow.setContent('<h3 style="color:red">' + pins[i].eventName + '</h3>' + pins[i].eventTime);
+                infowindow.setContent(`<h3 style="color:red"><a href="${eventArray[i].eventUrl}" target="_blank">${pins[i].eventName}</a></h3>` + pins[i].eventTime);
                 infowindow.open(map,marker);
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
                 let newEvent = document.createElement("p");
