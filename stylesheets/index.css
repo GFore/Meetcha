@@ -6,11 +6,16 @@ html {box-sizing: border-box;}
 html, body { margin: 0; padding: 0; height: 100%; width: 100%;
     font-family: Geneva, Arial, sans-serif;
 }
-/* body {
-    background-image: url(/websitebackground.jpg);
-} */
+body {
+    background-image: url(/backgrounds-blank-blue-953214.jpg);
+    color: white;
+}
 
-header {text-align: center;}
+header {
+    text-align: center;
+    font-family: 'Bungee', cursive;
+    color: white;
+}
 
 .formItems {
     display: flex;
@@ -59,6 +64,12 @@ input, select {
 
 }
 
+.description a {
+    text-decoration: underline;
+    color: white;
+    font-style: italic;
+}
+
 .noResults {
     color: brown;
     text-align: center;
@@ -92,7 +103,7 @@ details>div>p {padding: 0 30px;}
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
     background-color: #eee;
-    color: #444;
+    color: rgb(11,88,144);
     cursor: pointer;
     padding: 18px;
     width: 100%;
@@ -100,6 +111,11 @@ details>div>p {padding: 0 30px;}
     border: none;
     outline: none;
     transition: 0.4s;
+}
+
+.accordion a {
+    text-decoration: underline;
+    color: rgb(11,88,144);
 }
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
@@ -110,11 +126,17 @@ details>div>p {padding: 0 30px;}
 /* Style the accordion panel. Note: hidden by default */
 .panel {
     padding: 0 18px;
-    background-color: rgb(245, 229, 180);
+    background-color: white;
     /* display: none; */
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    color: rgb(11,88,144);
+}
+
+.panel a {
+    font-style: italic;
+    color: rgb(11,88,144);
 }
 
 

@@ -288,7 +288,7 @@ function mapPins(pins) {
         google.maps.event.addListener(marker, 'click', (function (marker, i) {
             
             let callback = function (){
-                infowindow.setContent(`<h3 style="color:red"><a href="${eventArray[i].eventUrl}" target="_blank">${pins[i].eventName}</a></h3>` + pins[i].eventTime);
+                infowindow.setContent(`<h3><a style="color:blue" href="${eventArray[i].eventUrl}" target="_blank" >${pins[i].eventName}</a></h3>` + `<p style="color:blue">${pins[i].eventTime}</p>`);
                 infowindow.open(map,marker);
                 // marker.setAnimation(google.maps.Animation.BOUNCE);
                 let newEvent = document.createElement("p");
