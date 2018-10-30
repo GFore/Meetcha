@@ -41,7 +41,7 @@ input, select {
 }
 
 #map {
-    height: 66vh;
+    height: 50vh;
     width: 90%;
     /* outline: 1px red solid; */
 }
@@ -70,11 +70,6 @@ input, select {
     font-style: italic;
 }
 
-.changeWidth {
-    /* width: 30%; */
-    /* width: 90%; */
-}
-
 .noResults {
     color: brown;
     text-align: center;
@@ -87,14 +82,23 @@ input, select {
 
 .eventList {
     /* padding: 10px; */
-    overflow: scroll;
+    /* overflow: scroll; */
     height: 50vh;
     margin: 2px;
     width: 100%;
 }
 
+.eventList>header {padding: 5px;}
+header>button {font-size: 10px; margin: 3px}
+
 summary {margin: 15px 0;}
 details>div>p {padding: 0 30px;}
+
+.accordionContainer {
+    overflow: scroll;
+    width: 100%;
+    height: 50vh;
+}
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
@@ -145,10 +149,13 @@ details>div>p {padding: 0 30px;}
         height: 66vh;
         justify-content: flex-start
     }
-
+    
     .description {max-height: unset;}
-
-    #map {width: 66%;}
+    
+    #map {
+        width: 66%;
+        height: 66vh;
+    }
 }
 
 
@@ -173,5 +180,9 @@ details>div>p {padding: 0 30px;}
         height: 90vh;
         margin: 2px;
         width: 25%;
+    }
+    .accordionContainer {
+        height: 75vh;
+        font-size: small;
     }
 }
