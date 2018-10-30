@@ -82,6 +82,9 @@ input, select {
     width: 100%;
 }
 
+.eventList>header {padding: 5px;}
+header>button {font-size: 10px; margin: 3px}
+
 summary {margin: 15px 0;}
 details>div>p {padding: 0 30px;}
 

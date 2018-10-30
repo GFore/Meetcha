@@ -82,9 +82,16 @@ function addAccordionHeader(eventCount) {
     headerH2.textContent = "Meetup Event List";
     
     //newEventSummary.className = "accordion";
-    //let newEventDetails = document.createElement("div");
+    let btnExpand = document.createElement("button");
+    let btnCollapse = document.createElement("button");
+    btnExpand.textContent = "Expand All";
+    btnCollapse.textContent = "Collapse All";
+
+
     header.appendChild(headerH2);
-    header.innerHTML += `<p>Event Count: ${eventCount}</p>Click the Event Name below for more details.`
+    header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
+    header.appendChild(btnExpand);
+    header.appendChild(btnCollapse);
     eventListAccordion.appendChild(header);
 }
 
