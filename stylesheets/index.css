@@ -92,7 +92,13 @@ input, select {
 }
 
 .eventList>header {padding: 5px;}
-header>button {font-size: 10px; margin: 3px}
+header>button {
+    font-size: 10px;
+    margin: 3px;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
 
 summary {margin: 15px 0;}
 details>div>p {padding: 0 30px;}
