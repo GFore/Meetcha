@@ -20,7 +20,7 @@ let markerArray = [];
 // =================================
 // FUNCTION DEDEFINITIONS
 // =================================
-function getLocation(cb) {
+function getLocation(cb) {                      // gets user location using geolocation api
     let lats;
     let longs;
     if (navigator.geolocation) {
@@ -32,7 +32,7 @@ function getLocation(cb) {
         })}    
 }
 
-function initMap() {
+function initMap() {                            // initial paint of the Google map centered on user
     getLocation(function(myLatLon) {
                 let map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 13,
@@ -42,7 +42,7 @@ function initMap() {
     );
 }
 
-function drawOption(catName, catID) {
+function drawOption(catName, catID) {           // populate the categories drop down list
     /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
     const newOption = document.createElement('option');
     newOption.setAttribute('value', catID);
@@ -50,14 +50,14 @@ function drawOption(catName, catID) {
     formCategoryDropdown.appendChild(newOption);
 }
 
-function extract(returnedData) {
+function extract(returnedData) {                // extract the results array from the data returned from Meetup
     console.log(returnedData);
     // extract the results array from the returned data 
     //debugger;
     return returnedData.results;
 }
 
-function displayResults(results) {
+function displayResults(results) {              // builds the event list accordion display
     eventListAccordion.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     if (results.length === 0) {
         noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
@@ -76,7 +76,7 @@ function displayResults(results) {
     return results;
 }
 
-function addAccordionHeader(eventCount) {
+function addAccordionHeader(eventCount) {       // add the header to the accordion display list
     let header = document.createElement("header");
     let headerH2 = document.createElement("h2");
     headerH2.textContent = "Meetup Event List";
@@ -101,7 +101,7 @@ function addAccordionHeader(eventCount) {
     eventListAccordion.appendChild(accContainer);
 }
 
-function addEventDivAccordion(event, i) {
+function addEventDivAccordion(event, i) {       // add each event to the accordion display list
     //event is an object with key-value pairs containing details for an event - see the results
     // const in sampleData.js for an example of the event data
     // This function will add a div to the html body element that displays info for the event.
@@ -148,7 +148,7 @@ function addEventDivAccordion(event, i) {
     document.querySelector('[data-accCont]').appendChild(newEvent);
 }
 
-function accordionExpandAll() {
+function accordionExpandAll() {                 // build the Expand All button
     let summaryList = document.getElementsByClassName('accordion');
     for (let x = 0; x < summaryList.length; x++) {
         summaryList[x].className = "accordion active";
@@ -159,7 +159,7 @@ function accordionExpandAll() {
     }
 }
 
-function accordionCollapseAll() {
+function accordionCollapseAll() {               // build the Collapse All button
     let summaryList = document.getElementsByClassName('accordion');
     for (let x = 0; x < summaryList.length; x++) {
         summaryList[x].className = "accordion";
@@ -171,7 +171,7 @@ function accordionCollapseAll() {
     
 }
 
-function pushEventToEventArray(event) {
+function pushEventToEventArray(event) {         // extract event info and push to event array
     // event is an object with key-value pairs containing details for an event
     // This function gets pertinent details and adds the event to eventArray to be used after the initial fetch concludes.
     let eventInfo = {};
@@ -201,7 +201,7 @@ function pushEventToEventArray(event) {
     eventArray.push(eventInfo);
 }
 
-function getEventTime(epochTime) {
+function getEventTime(epochTime) {              // convert time from epoch time to readable date/time
     let fullDateArray = new Date(epochTime).toString().split(' ').slice(0,5);
     // e.g., epochTime 1540491895495 would now be converted to ["Thu", "Oct", "25", "2018", "15:08:33"]
     // need to convert last item from 24hr time to 12hr time with AM/PM
@@ -215,7 +215,7 @@ function getEventTime(epochTime) {
     return fullDateArray.join(' ');
 }
 
-function getPinInfo(results) {
+function getPinInfo(results) {                  // build the pins array with event info for each pin
     // function to build the pins array to contain event info (id, name, and lat/lon)
     // for map pins. The pins array will look like:
     // [{   'id': '<string>',
@@ -253,7 +253,7 @@ function getPinInfo(results) {
 }
 
 
-function mapPins(pins) {      
+function mapPins(pins) {                        // draws map with pins
     // First rewrites the map centered on the zipcode that is put in the 
     // for field
     // then takes the pins info and uses the long/lat to set the pins
@@ -317,7 +317,7 @@ function mapPins(pins) {
     return pins;
 }
 
-function handleSubmit(event) {
+function handleSubmit(event) {                  // responds to Submit button click - Meetup API call, etc 
     event.preventDefault();
     handleReset();
     btnReset.removeAttribute('disabled');
@@ -326,7 +326,7 @@ function handleSubmit(event) {
     const urlZip = `&zip=${formZipcode.value}`;
     const urlRadius = `&radius=${formRadius.value}`;
     const urlCategory = (formCategoryDropdown.value === "0") ? `&order=time` : `&category=${formCategoryDropdown.value}&order=time`;
-    // NEED TO HANDLE CASES WHERE FORM FIELDS WERE LEFT BLANK
+
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
     console.log(`fetching ${url}`);
     fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
@@ -337,7 +337,7 @@ function handleSubmit(event) {
         .then(mapPins);
 }
 
-function handleReset() {
+function handleReset() {                        // respond to Reset button click
     eventArray = [];
     markerArray = [];
     noResultsDiv.innerHTML = "";
@@ -353,10 +353,10 @@ function handleReset() {
 // =================================
 // MAIN
 // =================================
-//mapPins([]);
-categories.forEach(x => drawOption(x.name, x.id));      //builds Categories dropdown 
-getMeetupForm.addEventListener('submit', handleSubmit);
-btnReset.addEventListener('click', function(){
+
+categories.forEach(x => drawOption(x.name, x.id));          // builds Categories dropdown 
+getMeetupForm.addEventListener('submit', handleSubmit);     // add event listener to Submit button
+btnReset.addEventListener('click', function(){              // add event listener to Reset button 
     formRadius.value = '1';
     handleReset();
     formZipcode.value = '';
