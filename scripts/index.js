@@ -81,12 +81,12 @@ function addAccordionHeader(eventCount) {
     let headerH2 = document.createElement("h2");
     headerH2.textContent = "Meetup Event List";
     
-    //newEventSummary.className = "accordion";
     let btnExpand = document.createElement("button");
     let btnCollapse = document.createElement("button");
     btnExpand.textContent = "Expand All";
     btnCollapse.textContent = "Collapse All";
-
+    btnExpand.addEventListener('click', accordionExpandAll);
+    btnCollapse.addEventListener('click', accordionCollapseAll);
 
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
@@ -123,7 +123,6 @@ function addEventDivAccordion(event, i) {
         <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
     newEvent.appendChild(newEventSummary);
     newEvent.appendChild(newEventDetails);
-    // eventListAccordion.appendChild(newEvent);
     newEventSummary.addEventListener('mouseenter', x => {
         // console.log(markerArray[i]())
         if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
@@ -146,8 +145,30 @@ function addEventDivAccordion(event, i) {
             panel.style.maxHeight = panel.scrollHeight + "px";
         } 
     });
-    // eventListAccordion.appendChild(newEvent);
     document.querySelector('[data-accCont]').appendChild(newEvent);
+}
+
+function accordionExpandAll() {
+    let summaryList = document.getElementsByClassName('accordion');
+    for (let x = 0; x < summaryList.length; x++) {
+        summaryList[x].className = "accordion active";
+    }
+    let panelList = document.getElementsByClassName('panel');
+    for (let x = 0; x < panelList.length; x++) {
+        panelList[x].style.maxHeight = panelList[x].scrollHeight + "px";
+    }
+}
+
+function accordionCollapseAll() {
+    let summaryList = document.getElementsByClassName('accordion');
+    for (let x = 0; x < summaryList.length; x++) {
+        summaryList[x].className = "accordion";
+    }
+    let panelList = document.getElementsByClassName('panel');
+    for (let x = 0; x < panelList.length; x++) {
+        panelList[x].style.maxHeight = 0;
+    }
+    
 }
 
 function pushEventToEventArray(event) {
