@@ -93,6 +93,12 @@ function addAccordionHeader(eventCount) {
     header.appendChild(btnExpand);
     header.appendChild(btnCollapse);
     eventListAccordion.appendChild(header);
+    
+    //add div to hold the events so header doesn't scroll
+    let accContainer = document.createElement("div");
+    accContainer.className = "accordionContainer";
+    accContainer.setAttribute('data-accCont', '');
+    eventListAccordion.appendChild(accContainer);
 }
 
 function addEventDivAccordion(event, i) {
@@ -117,7 +123,7 @@ function addEventDivAccordion(event, i) {
         <p><a href="${event.event_url}" target="_blank">See event details on Meetup.com</a></p>`;
     newEvent.appendChild(newEventSummary);
     newEvent.appendChild(newEventDetails);
-    eventListAccordion.appendChild(newEvent);
+    // eventListAccordion.appendChild(newEvent);
     newEventSummary.addEventListener('mouseenter', x => {
         // console.log(markerArray[i]())
         if (markerArray[i].getAnimation() != google.maps.Animation.BOUNCE) {
@@ -140,6 +146,8 @@ function addEventDivAccordion(event, i) {
             panel.style.maxHeight = panel.scrollHeight + "px";
         } 
     });
+    // eventListAccordion.appendChild(newEvent);
+    document.querySelector('[data-accCont]').appendChild(newEvent);
 }
 
 function pushEventToEventArray(event) {
