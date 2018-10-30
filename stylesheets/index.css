@@ -13,8 +13,11 @@ body {
 
 header {
     text-align: center;
-    font-family: 'Bungee', cursive;
     color: white;
+}
+
+h1, h2 {
+    font-family: 'Bungee', cursive;
 }
 
 .formItems {
