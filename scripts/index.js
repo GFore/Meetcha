@@ -1,8 +1,7 @@
 // =================================
 // CONSTANT DEFINITIONS
 // =================================
-// const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';     //used to get around CORS issue with Meetup API
-const corsUrlPrefix = '';     // add SSL to meetcha.co so likely no longer need the proxy for live site
+const corsUrlPrefix = 'https://my-little-cors-proxy.herokuapp.com/';     //used to get around CORS issue with Meetup API
 const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
