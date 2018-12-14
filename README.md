@@ -1,5 +1,7 @@
 # Meetcha!
 
+*LIVE SITE*: [meetcha.co](https://meetcha.co/)
+
 ## Overview: 
 
 Meetcha! is a responsive webApp that allows you to bypass Meetup's machine learning algorithm to populate what meetups you'd like to be apart of. Meetcha allows you to put in the zipcode of where ever you are or will be and it will give you a list of meetups in a given radius, of which you also get to choose. 
@@ -70,5 +72,3 @@ All team members are students in the [Digital Crafts](https://www.digitalcrafts.
     would need to be stored globally to be accessed later. This challenge wasn't much of 
     a hurdle as we quickly realized as we ran into a coding wall that we needed to be passing 
     more information to each function. 
-
-## Screenshots or GIF
