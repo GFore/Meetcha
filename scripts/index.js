@@ -1,7 +1,8 @@
 // =================================
 // CONSTANT DEFINITIONS
 // =================================
-const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';
+// const corsUrlPrefix = 'http://my-little-cors-proxy.herokuapp.com/';     //used to get around CORS issue with Meetup API
+const corsUrlPrefix = '';     // add SSL to meetcha.co so likely no longer need the proxy for live site
 const getMeetupForm = document.querySelector('[data-form]');
 const formZipcode = document.querySelector('[data-zipcode]');
 const formRadius = document.querySelector('[data-radius]');
@@ -43,7 +44,10 @@ function initMap() {                            // initial paint of the Google m
 }
 
 function drawOption(catName, catID) {           // populate the categories drop down list
-    /* Function that draws drop-down list option to DOM for the Meetup categories. Uses the static const variable list of categories that was pulled from Meetup on 10/23/18. This could be changed to a dynamic list that pulls the current list of categories via an API call (https://api.meetup.com/2/categories?key=...) but this list should be fairly stable so it should be OK to use a snapshot. */
+    // Uses the static list of categories pulled from the Meetup API on 10/23/18 and stored in the
+    // categories variable stored in sampleData.js. Could change to a dynamic list by pulling the
+    // current list of categories via an API call (https://api.meetup.com/2/categories?key=...)
+    // but the category list should be fairly stable so it should be OK to use a snapshot.
     const newOption = document.createElement('option');
     newOption.setAttribute('value', catID);
     newOption.textContent = catName;
@@ -319,10 +323,11 @@ function mapPins(pins) {                        // draws map with pins
 
 function handleSubmit(event) {                  // responds to Submit button click - Meetup API call, etc 
     event.preventDefault();
-    handleReset();
-    btnReset.removeAttribute('disabled');
-	console.log(event.target);
-    const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;
+    handleReset();                          // clears data in case Submit was clicked previously
+    btnReset.removeAttribute('disabled');   // only enable the Reset button once Submit has been clicked (revisit this if more input fields are added)
+    
+    // Build the URL to send to Meetup API using input fields
+    const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;  // MEETUP_APIKEY stored in config.js - enhance with OAuth may eliminate this???
     const urlZip = `&zip=${formZipcode.value}`;
     const urlRadius = `&radius=${formRadius.value}`;
     const urlCategory = (formCategoryDropdown.value === "0") ? `&order=time` : `&category=${formCategoryDropdown.value}&order=time`;
@@ -349,12 +354,11 @@ function handleReset() {                        // respond to Reset button click
     btnReset.setAttribute('disabled', '');
 }
     
-    
 // =================================
 // MAIN
 // =================================
 
-categories.forEach(x => drawOption(x.name, x.id));          // builds Categories dropdown 
+categories.forEach(x => drawOption(x.name, x.id));          // builds Categories dropdown using data from the categories variable in sampleData.js
 getMeetupForm.addEventListener('submit', handleSubmit);     // add event listener to Submit button
 btnReset.addEventListener('click', function(){              // add event listener to Reset button 
     formRadius.value = '1';
