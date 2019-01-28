@@ -132,7 +132,8 @@ function addAccordionHeader(results) {       // add the header to the accordion 
         filterDate.setHours(filterDate.getHours() + (filterDate.getTimezoneOffset() / 60))
         console.log(event.target.valueAsDate)
         let filteredResults = event.target.valueAsDate ? filterResults({filterDate}) : resultsArray
-        displayResults(filteredResults)
+        // update display
+        mapPins(getPinInfo(displayResults(filteredResults)))
     }
 
     //add div to hold the events so header doesn't scroll
