@@ -324,7 +324,7 @@ function handleSubmit(event) {                  // responds to Submit button cli
     event.preventDefault();
     handleReset();                          // clears data in case Submit was clicked previously
     btnReset.removeAttribute('disabled');   // only enable the Reset button once Submit has been clicked (revisit this if more input fields are added)
-    
+    const MEETUP_APIKEY = '52453f64256f6b11466d163924c2939'
     // Build the URL to send to Meetup API using input fields
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;  // MEETUP_APIKEY stored in config.js - enhance with OAuth may eliminate this???
     const urlZip = `&zip=${formZipcode.value}`;
