@@ -61,8 +61,15 @@ function extract(returnedData) {                // extract the results array fro
 }
 
 function filterResults({results, date}) {
-    let filteredResults = []
-    console.log(date)
+    let filteredResults = results.filter(meetup => {
+        const meetupDate = new Date(meetup.time)
+        console.log(meetupDate.getTime(), date.getTime())
+        if (meetupDate.getFullYear() === date.getFullYear()) {
+            return true
+        } else {
+            return false
+        }
+    })
     return filteredResults
 }
 
@@ -112,8 +119,7 @@ function addAccordionHeader(results) {       // add the header to the accordion 
         
     // must set onchange after appending to document
     dateFilter.onchange = event => {
-        console.log(event)
-        let filteredResults = filterResults({results, date: event.target.value})
+        let filteredResults = filterResults({results, date: event.target.valueAsDate})
         displayResults(filteredResults)
     }
 
