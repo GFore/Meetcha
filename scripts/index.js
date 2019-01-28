@@ -62,7 +62,7 @@ function extract(returnedData) {                // extract the results array fro
 
 function filterResults({results, date}) {
     let filteredResults = []
-
+    console.log(date)
     return filteredResults
 }
 
@@ -72,8 +72,6 @@ function displayResults(results) {              // builds the event list accordi
         noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
         noResultsDiv.className = "noResults";  //removes the noDisplay class so the div is visible
     } else {
-        // add filters here to 
-
         // Add a header to the Event List div
         addAccordionHeader(results);
 
@@ -100,21 +98,25 @@ function addAccordionHeader(results) {       // add the header to the accordion 
     btnExpand.addEventListener('click', accordionExpandAll);
     btnCollapse.addEventListener('click', accordionCollapseAll);
 
-    // add results filter options here
+    // add results filter options to header here
     let dateFilter = document.createElement('input')
     dateFilter.setAttribute("type", "date")
-    dateFilter.onchange = event => {
-        let filteredResults = filterResults({results, date: event.target.value})
-        displayResults(filteredResults)
-    }
 
+    
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
     header.appendChild(btnExpand);
     header.appendChild(btnCollapse);
     header.appendChild(dateFilter)
     eventListAccordion.appendChild(header);
-    
+        
+    // must set onchange after appending to document
+    dateFilter.onchange = event => {
+        console.log(event)
+        let filteredResults = filterResults({results, date: event.target.value})
+        displayResults(filteredResults)
+    }
+
     //add div to hold the events so header doesn't scroll
     let accContainer = document.createElement("div");
     accContainer.className = "accordionContainer";
