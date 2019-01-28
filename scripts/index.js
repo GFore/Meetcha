@@ -14,6 +14,7 @@ const eventListAccordion = document.querySelector('[data-eventListAccordion]');
 // =================================
 // GLOBAL VARIABLE DEFINITIONS
 // =================================
+let resultsArray = []
 let eventArray = [];
 let markerArray = [];
 
@@ -57,14 +58,21 @@ function extract(returnedData) {                // extract the results array fro
     console.log(returnedData);
     // extract the results array from the returned data 
     //debugger;
+    resultsArray = returnedData.results
     return returnedData.results;
 }
 
+// filters meetup search results based on date input
+// should be able to add this function to other search filter's onchange event handler
+// would pass appropriate variables as necessary in object
 function filterResults({results, date}) {
     let filteredResults = results.filter(meetup => {
         const meetupDate = new Date(meetup.time)
-        console.log(meetupDate.getTime(), date.getTime())
-        if (meetupDate.getFullYear() === date.getFullYear()) {
+        console.log(meetupDate, date)
+        const isSameDate = meetupDate.getFullYear() === date.getFullYear() &&
+                            meetupDate.getMonth() === date.getMonth() &&
+                            meetupDate.getDate() === date.getDate()
+        if (isSameDate) {
             return true
         } else {
             return false
@@ -119,7 +127,10 @@ function addAccordionHeader(results) {       // add the header to the accordion 
         
     // must set onchange after appending to document
     dateFilter.onchange = event => {
-        let filteredResults = filterResults({results, date: event.target.valueAsDate})
+        const filterDate = new Date(event.target.valueAsDate)
+        // adjust date input for local time
+        filterDate.setHours(filterDate.getHours() + (filterDate.getTimezoneOffset() / 60))
+        let filteredResults = filterResults({results, date: filterDate})
         displayResults(filteredResults)
     }
 
