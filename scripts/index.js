@@ -65,18 +65,13 @@ function extract(returnedData) {                // extract the results array fro
 // filters meetup search results based on date input
 // should be able to add this function to other search filter's onchange event handler
 // would pass appropriate variables as necessary in object
-function filterResults({results, date}) {
-    let filteredResults = results.filter(meetup => {
+function filterResults({filterDate}) {
+    let filteredResults = resultsArray.filter(meetup => {
         const meetupDate = new Date(meetup.time)
-        console.log(meetupDate, date)
-        const isSameDate = meetupDate.getFullYear() === date.getFullYear() &&
-                            meetupDate.getMonth() === date.getMonth() &&
-                            meetupDate.getDate() === date.getDate()
-        if (isSameDate) {
-            return true
-        } else {
-            return false
-        }
+        const isSameDate = meetupDate.getFullYear() === filterDate.getFullYear() &&
+                            meetupDate.getMonth() === filterDate.getMonth() &&
+                            meetupDate.getDate() === filterDate.getDate()
+        return isSameDate
     })
     return filteredResults
 }
@@ -116,7 +111,7 @@ function addAccordionHeader(results) {       // add the header to the accordion 
     // add results filter options to header here
     let dateFilter = document.createElement('input')
     dateFilter.setAttribute("type", "date")
-
+    dateFilter.setAttribute('value', new Date(results[0].time).toISOString().slice(0, 10))
     
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
@@ -130,7 +125,7 @@ function addAccordionHeader(results) {       // add the header to the accordion 
         const filterDate = new Date(event.target.valueAsDate)
         // adjust date input for local time
         filterDate.setHours(filterDate.getHours() + (filterDate.getTimezoneOffset() / 60))
-        let filteredResults = filterResults({results, date: filterDate})
+        let filteredResults = filterResults({filterDate})
         displayResults(filteredResults)
     }
 
