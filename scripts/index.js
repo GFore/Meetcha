@@ -111,7 +111,12 @@ function addAccordionHeader(results) {       // add the header to the accordion 
     // add results filter options to header here
     let dateFilter = document.createElement('input')
     dateFilter.setAttribute("type", "date")
-    dateFilter.setAttribute('value', new Date(results[0].time).toISOString().slice(0, 10))
+
+    // if results are being filtered
+    // set date input value to the first filtered result
+    // essentially controlling the input without React
+    results.length !== resultsArray.length && 
+        dateFilter.setAttribute('value', new Date(results[0].time).toISOString().slice(0, 10))
     
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
