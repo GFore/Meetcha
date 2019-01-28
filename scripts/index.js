@@ -125,7 +125,8 @@ function addAccordionHeader(results) {       // add the header to the accordion 
         const filterDate = new Date(event.target.valueAsDate)
         // adjust date input for local time
         filterDate.setHours(filterDate.getHours() + (filterDate.getTimezoneOffset() / 60))
-        let filteredResults = filterResults({filterDate})
+        console.log(event.target.valueAsDate)
+        let filteredResults = event.target.valueAsDate ? filterResults({filterDate}) : resultsArray
         displayResults(filteredResults)
     }
 
