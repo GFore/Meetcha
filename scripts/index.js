@@ -60,17 +60,22 @@ function extract(returnedData) {                // extract the results array fro
     return returnedData.results;
 }
 
+function filterResults({results, date}) {
+    let filteredResults = []
+
+    return filteredResults
+}
+
 function displayResults(results) {              // builds the event list accordion display
     eventListAccordion.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     if (results.length === 0) {
         noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
         noResultsDiv.className = "noResults";  //removes the noDisplay class so the div is visible
     } else {
+        // add filters here to 
+
         // Add a header to the Event List div
-        addAccordionHeader(results.length);
-
-        // add onChange event handler here for new category filter
-
+        addAccordionHeader(results);
 
         // Add each event to the event list accordion
         results.forEach((x, i) => {
@@ -82,7 +87,8 @@ function displayResults(results) {              // builds the event list accordi
     return results;
 }
 
-function addAccordionHeader(eventCount) {       // add the header to the accordion display list
+function addAccordionHeader(results) {       // add the header to the accordion display list
+    let eventCount = results.length
     let header = document.createElement("header");
     let headerH2 = document.createElement("h2");
     headerH2.textContent = "Meetup Event List";
@@ -97,6 +103,10 @@ function addAccordionHeader(eventCount) {       // add the header to the accordi
     // add results filter options here
     let dateFilter = document.createElement('input')
     dateFilter.setAttribute("type", "date")
+    dateFilter.onchange = event => {
+        let filteredResults = filterResults({results, date: event.target.value})
+        displayResults(filteredResults)
+    }
 
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
