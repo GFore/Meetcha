@@ -69,6 +69,9 @@ function displayResults(results) {              // builds the event list accordi
         // Add a header to the Event List div
         addAccordionHeader(results.length);
 
+        // add onChange event handler here for new category filter
+
+
         // Add each event to the event list accordion
         results.forEach((x, i) => {
             addEventDivAccordion(x, i);
@@ -91,10 +94,15 @@ function addAccordionHeader(eventCount) {       // add the header to the accordi
     btnExpand.addEventListener('click', accordionExpandAll);
     btnCollapse.addEventListener('click', accordionCollapseAll);
 
+    // add results filter options here
+    let dateFilter = document.createElement('input')
+    dateFilter.setAttribute("type", "date")
+
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
     header.appendChild(btnExpand);
     header.appendChild(btnCollapse);
+    header.appendChild(dateFilter)
     eventListAccordion.appendChild(header);
     
     //add div to hold the events so header doesn't scroll
