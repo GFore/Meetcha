@@ -77,6 +77,8 @@ input, select {
     color: brown;
     text-align: center;
     margin: 8px 0;
+    padding: 10px;
+    background-color: goldenrod;
 }
 
 .noDisplay {

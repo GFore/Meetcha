@@ -54,7 +54,7 @@ function drawOption(catName, catID) {           // populate the categories drop 
 }
 
 function extract(returnedData) {                // extract the results array from the data returned from Meetup
-    console.log(returnedData);
+    //console.log(returnedData);
     // extract the results array from the returned data 
     //debugger;
     return returnedData.results;
@@ -63,7 +63,7 @@ function extract(returnedData) {                // extract the results array fro
 function displayResults(results) {              // builds the event list accordion display
     eventListAccordion.innerHTML = "";    // this clears the list of events so it can be replaced with new search results
     if (results.length === 0) {
-        noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select All Categories.</strong>';
+        noResultsDiv.innerHTML = '<strong>No events found.<br>Please enter a larger radius or select <span style="white-space: nowrap;">All Categories.</span></strong>';
         noResultsDiv.className = "noResults";  //removes the noDisplay class so the div is visible
     } else {
         // Add a header to the Event List div
@@ -257,17 +257,16 @@ function getPinInfo(results) {                  // build the pins array with eve
 
 
 function mapPins(pins) {                        // draws map with pins
-    // First rewrites the map centered on the zipcode that is put in the 
-    // for field
-    // then takes the pins info and uses the long/lat to set the pins
-    // the pins will show specific info when clicked
+    // First rewrites the map centered on the zipcode that is put in the
+    // form field then takes the pins info and uses the long/lat to set
+    // the pins, which will show specific info when clicked
     
     const address = formZipcode.value;
     let zoomLevel = 13;
     if (formRadius.value > 9) {zoomLevel = 12};
     if (formRadius.value > 24) {zoomLevel = 11};
     if (formRadius.value > 49) {zoomLevel = 10};
-    console.log('drawing map');
+    //console.log('drawing map');
     let map = new google.maps.Map(document.getElementById('map'), {
         zoom: zoomLevel,
         //mapTypeId: google.maps.mapTypeId.ROADMAP
@@ -332,7 +331,7 @@ function handleSubmit(event) {                  // responds to Submit button cli
     const urlCategory = (formCategoryDropdown.value === "0") ? `&order=time` : `&category=${formCategoryDropdown.value}&order=time`;
 
     const url = `${corsUrlPrefix}${baseurl}${urlZip}${urlRadius}${urlCategory}`;
-    console.log(`fetching ${url}`);
+    //console.log(`fetching ${url}`);
     fetch(url, {headers: {'Content-Type': 'application/json; charset=utf-8'}})
         .then(r => r.json())
         .then(extract)
