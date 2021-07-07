@@ -14,6 +14,7 @@ const eventListAccordion = document.querySelector('[data-eventListAccordion]');
 // =================================
 // GLOBAL VARIABLE DEFINITIONS
 // =================================
+let resultsArray = []
 let eventArray = [];
 let markerArray = [];
 
@@ -57,7 +58,22 @@ function extract(returnedData) {                // extract the results array fro
     //console.log(returnedData);
     // extract the results array from the returned data 
     //debugger;
+    resultsArray = returnedData.results
     return returnedData.results;
+}
+
+// filters meetup search results based on date input
+// should be able to add this function to other search filter's onchange event handler
+// would pass appropriate variables as necessary in object
+function filterResults({filterDate}) {
+    let filteredResults = resultsArray.filter(meetup => {
+        const meetupDate = new Date(meetup.time)
+        const isSameDate = meetupDate.getFullYear() === filterDate.getFullYear() &&
+                            meetupDate.getMonth() === filterDate.getMonth() &&
+                            meetupDate.getDate() === filterDate.getDate()
+        return isSameDate
+    })
+    return filteredResults
 }
 
 function displayResults(results) {              // builds the event list accordion display
@@ -67,7 +83,7 @@ function displayResults(results) {              // builds the event list accordi
         noResultsDiv.className = "noResults";  //removes the noDisplay class so the div is visible
     } else {
         // Add a header to the Event List div
-        addAccordionHeader(results.length);
+        addAccordionHeader(results);
 
         // Add each event to the event list accordion
         results.forEach((x, i) => {
@@ -79,7 +95,8 @@ function displayResults(results) {              // builds the event list accordi
     return results;
 }
 
-function addAccordionHeader(eventCount) {       // add the header to the accordion display list
+function addAccordionHeader(results) {       // add the header to the accordion display list
+    let eventCount = results.length
     let header = document.createElement("header");
     let headerH2 = document.createElement("h2");
     headerH2.textContent = "Meetup Event List";
@@ -91,12 +108,34 @@ function addAccordionHeader(eventCount) {       // add the header to the accordi
     btnExpand.addEventListener('click', accordionExpandAll);
     btnCollapse.addEventListener('click', accordionCollapseAll);
 
+    // add results filter options to header here
+    let dateFilter = document.createElement('input')
+    dateFilter.setAttribute("type", "date")
+
+    // if results are being filtered
+    // set date input value to the first filtered result
+    // essentially controlling the input without React
+    results.length !== resultsArray.length && 
+        dateFilter.setAttribute('value', new Date(results[0].time).toISOString().slice(0, 10))
+    
     header.appendChild(headerH2);
     header.innerHTML += `<p>Meetup Events Found: ${eventCount}<br>Click an Event below for more details.</p>`;
     header.appendChild(btnExpand);
     header.appendChild(btnCollapse);
+    header.appendChild(dateFilter)
     eventListAccordion.appendChild(header);
-    
+        
+    // must set onchange after appending to document
+    dateFilter.onchange = event => {
+        const filterDate = new Date(event.target.valueAsDate)
+        // adjust date input for local time
+        filterDate.setHours(filterDate.getHours() + (filterDate.getTimezoneOffset() / 60))
+        console.log(event.target.valueAsDate)
+        let filteredResults = event.target.valueAsDate ? filterResults({filterDate}) : resultsArray
+        // update display
+        mapPins(getPinInfo(displayResults(filteredResults)))
+    }
+
     //add div to hold the events so header doesn't scroll
     let accContainer = document.createElement("div");
     accContainer.className = "accordionContainer";
@@ -323,7 +362,7 @@ function handleSubmit(event) {                  // responds to Submit button cli
     event.preventDefault();
     handleReset();                          // clears data in case Submit was clicked previously
     btnReset.removeAttribute('disabled');   // only enable the Reset button once Submit has been clicked (revisit this if more input fields are added)
-    
+    const MEETUP_APIKEY = '52453f64256f6b11466d163924c2939'
     // Build the URL to send to Meetup API using input fields
     const baseurl = `https://api.meetup.com/2/open_events?key=${MEETUP_APIKEY}`;  // MEETUP_APIKEY stored in config.js - enhance with OAuth may eliminate this???
     const urlZip = `&zip=${formZipcode.value}`;
