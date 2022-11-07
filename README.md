@@ -1,6 +1,6 @@
 # Meetcha!
 
-*LIVE SITE*: [meetcha.co](https://meetcha.co/)
+~~*LIVE SITE*: [meetcha.co](https://meetcha.co/)~~ **_Site is no longer active due to changes in the Meetup API_**
 
 ## Overview: 
 
